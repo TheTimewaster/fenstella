@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fenstella-dev-152832-authRole",
+      "UnauthRoleArn": "arn:aws:iam::292126497047:role/amplify-fenstella-dev-152832-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::292126497047:role/amplify-fenstella-dev-152832-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-fenstella-dev-152832-deployment",
+      "UnauthRoleName": "amplify-fenstella-dev-152832-unauthRole",
+      "StackName": "amplify-fenstella-dev-152832",
+      "StackId": "arn:aws:cloudformation:eu-central-1:292126497047:stack/amplify-fenstella-dev-152832/c3005090-6950-11eb-a3fe-029926a45418",
+      "AmplifyAppId": "dc1yk9misjirc"
+    },
+    "categories": {
+      "auth": {
+        "fenstella8d711968": {}
+      }
+    }
+  }
+}

@@ -8,7 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "firebase": "^8.2.6",
+    "@aws-amplify/ui-vue": "^0.3.1",
+    "aws-amplify": "^3.3.17",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",

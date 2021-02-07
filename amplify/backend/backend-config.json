@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "fenstella8d711968": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
