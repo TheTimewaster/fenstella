@@ -6,11 +6,23 @@ import Amplify from "aws-amplify";
 import awsExports from "./aws-exports";
 
 Amplify.configure(awsExports);
-
 Vue.config.productionTip = false;
 
-new Vue({
-    router,
-    store,
-    render: (h) => h(App)
-}).$mount("#app");
+const initVue = () => {
+    new Vue({
+        router,
+        store,
+        render: (h) => h(App)
+    }).$mount("#app");
+};
+
+store.dispatch("auth/init")
+    .then((sess) => {
+        if (sess != null) {
+            router.push("admin");
+        }
+        initVue();
+    })
+    .catch(() => {
+        initVue();
+    });

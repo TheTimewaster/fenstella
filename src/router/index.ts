@@ -1,14 +1,39 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Wall from "../views/Wall.vue";
+import WallView from "../views/Wall.vue";
+import LoginView from "../views/login/Login.vue";
+import SignInView from "@/views/login/SignIn.vue";
+import SignUpView from "@/views/login/SignUp.vue";
+import AdminView from "@/views/admin/Admin.vue";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
     {
         path: "/",
+        redirect: "/wall"
+    },
+    {
+        path: "/wall",
         name: "Wall",
-        component: Wall
+        component: WallView
+    },
+    {
+        path: "/admin",
+        name: "Admin",
+        component: AdminView
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: LoginView,
+        children: [{
+            path: "",
+            component: SignInView
+        }, {
+            path: "signup",
+            component: SignUpView
+        }]
     },
     {
         path: "/about",

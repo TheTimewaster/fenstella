@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "fenstella8d711968_identitypool_8d711968",
+    "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "fenste8d711968",
-    "userPoolName": "fenstella8d711968_userpool_8d711968",
+    "resourceNameTruncated": "fenste4f9889db",
+    "userPoolName": "fenstella",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "fenste8d711968_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "fenste4f9889db_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "8d711968",
-    "resourceName": "fenstella8d711968",
+    "sharedId": "4f9889db",
+    "resourceName": "fenstella",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,12 +45,16 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "serviceName": "Cognito",
     "usernameAttributes": [
         "email"
     ],
+    "useDefault": "manual",
+    "userPoolGroups": false,
     "userPoolGroupList": [],
-    "serviceName": "Cognito",
+    "adminQueries": false,
+    "thirdPartyAuth": false,
+    "authProviders": [],
     "usernameCaseSensitive": false,
     "dependsOn": []
 }

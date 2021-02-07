@@ -1,17 +1,16 @@
 <template>
     <div class="wall">
-        <Wall />
+        <WallComponent />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
-import Wall from "@/components/Wall.vue";
+import Vue from "vue";
+import WallComponent from "@/components/Wall.vue";
+import Component from "vue-class-component";
 
-export default {
-    name: "Home",
-    components: {
-        Wall
-    }
+@Component({ components: { WallComponent } })
+export default class WallView extends Vue {
 };
 </script>
