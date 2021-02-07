@@ -1,7 +1,7 @@
 <template>
-  <div class="wall">
-    <Wall />
-  </div>
+    <div class="wall">
+        <Wall />
+    </div>
 </template>
 
 <script>
