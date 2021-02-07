@@ -1,6 +1,6 @@
 {
   "auth": {
-    "fenstella8d711968": {
+    "fenstella": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
