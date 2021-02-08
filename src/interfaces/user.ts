@@ -10,10 +10,13 @@ export type AuthChallengeName =
 | "MFA_SETUP";
 
 export type AuthUser = CognitoUser & {
-challengeName: AuthChallengeName;
-challengeParam: {
-userAttributes: {
-    email: string | null;
-};
-};
+    challengeName: AuthChallengeName;
+    challengeParam: {
+        userAttributes: {
+            email: string | null;
+        };
+    };
+    attributes: {
+        email: string | null;
+    };
 }

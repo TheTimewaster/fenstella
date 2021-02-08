@@ -1,16 +1,36 @@
 <template>
     <div class="wall">
-        <WallComponent />
+        <h1 v-if="messageContent.length">{{ messageContent }}</h1>
+        <span v-else>No messages 😬</span>
     </div>
 </template>
 
 <script lang="ts">
 // @ is an alias to /src
+import { Message, MessageStatus } from "@/models";
+import messageService from "@/services/message.service";
 import Vue from "vue";
-import WallComponent from "@/components/Wall.vue";
 import Component from "vue-class-component";
+const OBSERVER_KEY = "display_message";
 
-@Component({ components: { WallComponent } })
+@Component
 export default class WallView extends Vue {
+  messageContent = "";
+  async created() {
+      messageService.observeMessage({
+          INSERT: this.assignMessageContent,
+          UPDATE: this.assignMessageContent,
+          DELETE: () => undefined
+      }, OBSERVER_KEY, MessageStatus.DISPLAY);
+
+      const msg = await messageService.getDisplayMessage();
+      if (msg != null) {
+          this.assignMessageContent(msg);
+      }
+  }
+
+  assignMessageContent(message: Message) {
+      this.messageContent = message.content;
+  }
 };
 </script>

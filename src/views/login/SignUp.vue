@@ -36,7 +36,7 @@ export default class SignUpView extends Vue {
             if (this.user == null) return;
             this.user.completeNewPasswordChallenge(this.password, {}, {
                 onSuccess: () => {
-                    this.$router.push("admin");
+                    this.$router.push("/admin");
                 },
                 onFailure: (error) => {
                     this.error = error;

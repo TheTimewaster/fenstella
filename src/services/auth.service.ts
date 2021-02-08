@@ -23,24 +23,6 @@ class AuthService {
         }
     }
 
-    async confirmSignUp(username: string, code: string) {
-        try {
-            return Auth.confirmSignUp(username, code);
-        } catch (error) {
-            console.error("error_confirm_signup", error);
-            throw new Error("error_confirm_signup");
-        }
-    }
-
-    async sendSignUp(username: string) {
-        try {
-            return Auth.resendSignUp(username);
-        } catch (error) {
-            console.error("error_send_signup", error);
-            throw new Error("error_send_signup");
-        }
-    }
-
     async logout() {
         try {
             return Auth.signOut();
