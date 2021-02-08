@@ -1,25 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-fenstella-dev-13637-authRole",
-      "UnauthRoleArn": "arn:aws:iam::292126497047:role/amplify-fenstella-dev-13637-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::292126497047:role/amplify-fenstella-dev-13637-authRole",
+      "AuthRoleName": "amplify-fenstella-dev-104512-authRole",
+      "UnauthRoleArn": "arn:aws:iam::292126497047:role/amplify-fenstella-dev-104512-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::292126497047:role/amplify-fenstella-dev-104512-authRole",
       "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-fenstella-dev-13637-deployment",
-      "UnauthRoleName": "amplify-fenstella-dev-13637-unauthRole",
-      "StackName": "amplify-fenstella-dev-13637",
-      "StackId": "arn:aws:cloudformation:eu-central-1:292126497047:stack/amplify-fenstella-dev-13637/b57312f0-69a5-11eb-a1b5-06c30b88bd52",
-      "AmplifyAppId": "d22slo3a0iw52l"
+      "DeploymentBucketName": "amplify-fenstella-dev-104512-deployment",
+      "UnauthRoleName": "amplify-fenstella-dev-104512-unauthRole",
+      "StackName": "amplify-fenstella-dev-104512",
+      "StackId": "arn:aws:cloudformation:eu-central-1:292126497047:stack/amplify-fenstella-dev-104512/58969dc0-69f2-11eb-bb9e-06ba8d29c402",
+      "AmplifyAppId": "dhid00bcnap1b"
     },
     "categories": {
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d22slo3a0iw52l",
-          "type": "manual"
-        }
-      },
       "auth": {
-        "fenstellad66e846d": {}
+        "fenstella69b000aa": {}
       }
     }
   }

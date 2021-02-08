@@ -1,14 +1,6 @@
 {
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "providerPlugin": "awscloudformation",
-      "type": "manual"
-    }
-  },
-  "function": {},
   "auth": {
-    "fenstellad66e846d": {
+    "fenstella69b000aa": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

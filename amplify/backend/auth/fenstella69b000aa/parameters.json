@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "fenstellad66e846d_identitypool_d66e846d",
+    "identityPoolName": "fenstella69b000aa_identitypool_69b000aa",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "fensted66e846d",
-    "userPoolName": "fenstellad66e846d_userpool_d66e846d",
+    "resourceNameTruncated": "fenste69b000aa",
+    "userPoolName": "fenstella69b000aa_userpool_69b000aa",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "fensted66e846d_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "fenste69b000aa_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "d66e846d",
-    "resourceName": "fenstellad66e846d",
+    "sharedId": "69b000aa",
+    "resourceName": "fenstella69b000aa",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
