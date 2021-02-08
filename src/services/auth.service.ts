@@ -1,4 +1,4 @@
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/interfaces";
 import { Auth } from "@aws-amplify/auth";
 
 class AuthService {

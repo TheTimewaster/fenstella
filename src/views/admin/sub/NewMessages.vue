@@ -44,7 +44,10 @@ export default class extends Vue {
             INSERT: message => {
                 this.messages.unshift(message);
             },
-            UPDATE: () => undefined,
+            UPDATE: message => {
+                const index = this.messages.findIndex(m => m.id === message.id);
+                this.$set(this.messages, index, message);
+            },
             DELETE: message => {
                 this.messages = this.messages.filter(m => m.id !== message.id);
             }
@@ -57,8 +60,9 @@ export default class extends Vue {
     }
 
     async assignStatus(message: Message, status: MessageStatus) {
-        const updatedMessage = await messageService.assignStatus(message, status);
-        this.messages = await messageService.getNewMessages();
+        const updated = await messageService.assignStatus(message, status);
+        const index = this.messages.findIndex(m => m.id === message.id);
+        this.$set(this.messages, index, updated);
     }
 
     deleteMessage(message: Message) {

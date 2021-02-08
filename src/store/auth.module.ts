@@ -1,4 +1,4 @@
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/interfaces";
 import authService from "@/services/auth.service";
 import { Module } from "vuex";
 import { RootState } from ".";
