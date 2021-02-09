@@ -10,7 +10,7 @@
                 <div class="messages-item__actions">
                     <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
                     <button class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
-                    <button class="btn btn--primary" @click="assignStatus(item, 'DISPLAY')">Approve</button>
+                    <button class="btn btn--primary" @click="assignStatus(item, 'PUBLISHED')">Approve</button>
                 </div>
             </div>
         </div>

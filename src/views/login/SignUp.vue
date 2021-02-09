@@ -9,7 +9,7 @@
     </form>
 </template>
 <script lang="ts">
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/interfaces";
 import Vue from "vue";
 import Component from "vue-class-component";
 

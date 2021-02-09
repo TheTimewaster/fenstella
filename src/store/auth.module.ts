@@ -20,7 +20,6 @@ export const auth: Module<AuthState, RootState> = {
                     const currentSession = await authService.getCurrentSession();
                     return new Promise((resolve) => {
                         cognitoUser.refreshSession(currentSession.getRefreshToken(), (err, session) => {
-                            console.debug(err, session);
                             if (err == null) {
                                 this.state.auth.user = cognitoUser;
                                 commit("LOGIN_SUCCESS", cognitoUser);

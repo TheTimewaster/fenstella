@@ -5,8 +5,10 @@ import { schema } from './schema';
 const MessageStatus = {
   "NEW": "NEW",
   "STAGED": "STAGED",
-  "DISPLAY": "DISPLAY",
-  "DENIED": "DENIED"
+  "PUBLISHED": "PUBLISHED",
+  "DENIED": "DENIED",
+  "ARCHIVED": "ARCHIVED",
+  "DISPLAY": "DISPLAY"
 };
 
 const { Message } = initSchema(schema);

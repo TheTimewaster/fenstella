@@ -1,8 +1,10 @@
 enum MessageStatus {
   NEW
   STAGED
-  DISPLAY
+  PUBLISHED
   DENIED
+  ARCHIVED
+  DISPLAY
 }
 
 type Message @model @auth(rules: [{allow: public, operations: [read], provider: apiKey}, {allow: private, operations: [read, create, update, delete], provider: iam}]) {
@@ -10,4 +12,6 @@ type Message @model @auth(rules: [{allow: public, operations: [read], provider: 
   content: String!
   timestamp: AWSTimestamp!
   messageStatus: MessageStatus!
+  stagingTimestamp: AWSTimestamp
+  publishTimestamp: AWSTimestamp
 }

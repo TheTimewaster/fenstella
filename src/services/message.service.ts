@@ -15,13 +15,20 @@ class MessageService {
     }
 
     async assignStatus(message: Message, status: MessageStatus) {
-        const updateMessage = Message.copyOf(message, currentMessage => { currentMessage.messageStatus = status; });
+        const updateMessage = Message.copyOf(message, (currentMessage) => {
+            currentMessage.messageStatus = status;
+            if (status === MessageStatus.PUBLISHED) {
+                currentMessage.publishTimestamp = new Date().valueOf();
+            } else if (status === MessageStatus.STAGED) {
+                currentMessage.stagingTimestamp = new Date().valueOf();
+            }
+        });
         return DataStore.save(updateMessage);
     }
 
-    async getDisplayMessage() {
+    async getLastPublishedMessage() {
         const messages = await DataStore.query(Message,
-            ({ messageStatus }) => messageStatus("eq", MessageStatus.DISPLAY), { sort: (message) => message.timestamp(SortDirection.DESCENDING), limit: 1 });
+            ({ messageStatus }) => messageStatus("eq", MessageStatus.PUBLISHED), { sort: (message) => message.publishTimestamp(SortDirection.DESCENDING), limit: 1 });
 
         if (messages.length > 0) {
             return messages[0];
@@ -56,16 +63,13 @@ class MessageService {
     }
 }
 
-export enum OpTypeClient {
-    INSERT = "INSERT",
-    UPDATE = "UPDATE",
-    DELETE = "DELETE"
-}
+type OpTypeClient =
+    "INSERT" |
+    "UPDATE" |
+    "DELETE"
 
 export type ObserverCallbacks = {
-    [OpTypeClient.INSERT]: (message: Message) => void;
-    [OpTypeClient.UPDATE]: (message: Message) => void;
-    [OpTypeClient.DELETE]: (message: Message) => void;
+    [key in OpTypeClient]: (message: Message) => void;
 }
 
 export default new MessageService();

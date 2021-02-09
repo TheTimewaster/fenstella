@@ -32,6 +32,20 @@ export const schema = {
                     },
                     "isRequired": true,
                     "attributes": []
+                },
+                "stagingTimestamp": {
+                    "name": "stagingTimestamp",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "publishTimestamp": {
+                    "name": "publishTimestamp",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -74,11 +88,13 @@ export const schema = {
             "values": [
                 "NEW",
                 "STAGED",
-                "DISPLAY",
-                "DENIED"
+                "PUBLISHED",
+                "DENIED",
+                "ARCHIVED",
+                "DISPLAY"
             ]
         }
     },
     "nonModels": {},
-    "version": "39036d150a12682e9d897388faa88d88"
+    "version": "5d4024dacb51bce21e7d819a148bfa10"
 };

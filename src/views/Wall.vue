@@ -21,9 +21,9 @@ export default class WallView extends Vue {
           INSERT: this.assignMessageContent,
           UPDATE: this.assignMessageContent,
           DELETE: () => undefined
-      }, OBSERVER_KEY, MessageStatus.DISPLAY);
+      }, OBSERVER_KEY, MessageStatus.PUBLISHED);
 
-      const msg = await messageService.getDisplayMessage();
+      const msg = await messageService.getLastPublishedMessage();
       if (msg != null) {
           this.assignMessageContent(msg);
       }
