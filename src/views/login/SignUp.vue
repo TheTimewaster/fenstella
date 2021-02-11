@@ -9,7 +9,7 @@
     </form>
 </template>
 <script lang="ts">
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/interfaces";
 import Vue from "vue";
 import Component from "vue-class-component";
 
@@ -36,7 +36,7 @@ export default class SignUpView extends Vue {
             if (this.user == null) return;
             this.user.completeNewPasswordChallenge(this.password, {}, {
                 onSuccess: () => {
-                    this.$router.push("admin");
+                    this.$router.push("/admin");
                 },
                 onFailure: (error) => {
                     this.error = error;
