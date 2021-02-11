@@ -18,7 +18,6 @@ const initVue = () => {
 
 store.dispatch("auth/init")
     .then((sess) => {
-        console.log(sess);
         if (sess != null) {
             addAdminRoutes(router);
             router.push("/admin/new")

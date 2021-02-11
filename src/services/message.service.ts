@@ -1,5 +1,5 @@
 import { Message, MessageStatus } from "@/models";
-import { DataStore, SortDirection } from "@aws-amplify/datastore";
+import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
 
 class MessageService {
     observers: {[key: string]: any} = {};
@@ -38,14 +38,36 @@ class MessageService {
 
     async getNewMessages() {
         return DataStore.query(Message,
-            ({ messageStatus }) => messageStatus("eq", MessageStatus.NEW), { sort: (message) => message.timestamp(SortDirection.ASCENDING) });
+            ({ messageStatus }) => messageStatus("eq", MessageStatus.NEW), { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
+    }
+
+    async getStagedMessages() {
+        const msg = DataStore.query(Message,
+            ({ messageStatus }) => messageStatus("eq", MessageStatus.STAGED), { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
+        return msg;
+    }
+
+    async getArchivedMessages() {
+        const msg = DataStore.query(Message,
+            m => m.or(
+                m => m
+                    .messageStatus("eq", MessageStatus.ARCHIVED)
+                    .messageStatus("eq", MessageStatus.DENIED)
+            )
+            , { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
+        return msg;
+    }
+
+    async getAllMessages() {
+        return DataStore.query(Message,
+            Predicates.ALL, { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
     }
 
     async deleteMessage(message: Message) {
         return DataStore.delete(message);
     }
 
-    async observeMessage(observerCallbacks: ObserverCallbacks, observerKey: string, status = MessageStatus.NEW) {
+    async observeMessage(observerCallbacks: ObserverCallbacks, observerKey: string, status: MessageStatus) {
         this.observers[observerKey] = DataStore
             .observe(Message, ({ messageStatus }) => messageStatus("eq", status))
             .subscribe((response) => {

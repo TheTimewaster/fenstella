@@ -1,11 +1,15 @@
 .admin-view {
+    display: flex;
+    flex-direction: column;
+
     &__nav {
         overflow: auto;
+
         &-link {
             text-decoration: none;
             opacity: .4;
             transition: opacity .4s ease;
-            margin: 0 16px;
+            margin: 0 .5rem;
             cursor: pointer;
             color: black;
 
@@ -30,5 +34,6 @@
         justify-content: center;
         position: fixed;
         bottom: 10px;
+        left: 0;
     }
 }

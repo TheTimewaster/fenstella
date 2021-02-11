@@ -1,13 +1,17 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <router-link to="/">Wall</router-link>
-            <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
-            <router-link v-else to="/admin/new">Admin</router-link>
-            <router-link to="/about">About</router-link>
-            <a v-if="isAuthenticated" @click="logout">Logout</a>
+        <div id="nav" class="d-flex">
+            <div class="flex-1">
+                <router-link to="/">Wall</router-link>
+                <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
+                <router-link v-else to="/admin/new">Admin</router-link>
+                <router-link to="/about">About</router-link>
+            </div>
+            <div class="flex-1 d-flex flex-justify-end">
+                <button v-if="isAuthenticated" class="btn" @click="logout">Logout</button>
+            </div>
         </div>
-        <router-view />
+        <router-view class="view" />
     </div>
 </template>
 <script lang="ts">

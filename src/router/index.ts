@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import WallView from "../views/Wall.vue";
-import LoginView from "../views/login/Login.vue";
+import WallView from "@/views/Wall.vue";
+import LoginView from "@/views/login/Login.vue";
 import SignInView from "@/views/login/SignIn.vue";
 import SignUpView from "@/views/login/SignUp.vue";
 
@@ -60,15 +60,15 @@ export const addAdminRoutes = (router: VueRouter) => {
             },
             {
                 path: "new",
-                component: () => import(/* webpackChunkName: "newMessages" */ "@/views/admin/sub/NewMessages.vue")
+                component: () => import(/* webpackChunkName: "newMessages" */ "@/views/admin/subroutes/NewMessages.vue")
             },
             {
                 path: "upcoming",
-                component: () => import(/* webpackChunkName: "upcomingMessages" */ "@/views/admin/sub/UpcomingMessages.vue")
+                component: () => import(/* webpackChunkName: "upcomingMessages" */ "@/views/admin/subroutes/UpcomingMessages.vue")
             },
             {
                 path: "archived",
-                component: () => import(/* webpackChunkName: "archivedMessages" */ "@/views/admin/sub/ArchivedMessages.vue")
+                component: () => import(/* webpackChunkName: "archivedMessages" */ "@/views/admin/subroutes/ArchivedMessages.vue")
             }]
     });
 };
