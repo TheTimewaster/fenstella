@@ -9,7 +9,7 @@
     </form>
 </template>
 <script lang="ts">
-import { AuthUser } from "@/interfaces";
+import { AuthUser } from "@/types";
 import Vue from "vue";
 import Component from "vue-class-component";
 
@@ -38,8 +38,8 @@ export default class SignUpView extends Vue {
                 onSuccess: () => {
                     this.$router.push("/admin");
                 },
-                onFailure: (error) => {
-                    this.error = error;
+                onFailure: (error: Error) => {
+                    this.error = error.message;
                 }
             });
         } catch (error) {
