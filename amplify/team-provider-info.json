@@ -14,6 +14,94 @@
     "categories": {
       "auth": {
         "fenstella69b000aa": {}
+      },
+      "function": {
+        "pushMessage": {
+          "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
+          "s3Key": "amplify-builds/pushMessage-356d78656f59536d3147-build.zip"
+        },
+        "FenstellaLayer": {
+          "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
+          "s3Key": "amplify-builds/FenstellaLayer-build.zip"
+        }
+      }
+    },
+    "nonCFNdata": {
+      "function": {
+        "FenstellaLayer": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "WA7ifF3fry3Zgyj1nlgwepgxhvMKbuDxllQdC2DrcK0="
+            },
+            "2": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "VFb6p9lvQ0+xYo3sTty4Oh6wL8AemXor5N0TMmw8OkQ="
+            },
+            "3": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "y0PSWm9dktI75zHspw6qKz4ax+D130yZ3DGCmoUWrPA="
+            },
+            "4": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "NuWzLzvzGzW/+ti5vCl3kpQpxORAjVc9PT+qSzi/POc="
+            },
+            "5": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "vCJV2T640Yeti2Fv453ZlJwrWPPn7YorCvVW5vLFMmQ="
+            }
+          }
+        }
       }
     }
   }

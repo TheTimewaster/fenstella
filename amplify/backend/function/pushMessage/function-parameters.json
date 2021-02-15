@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "api": {
+      "fenstella": [
+        "create"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "FenstellaLayer",
+      "version": 5
+    }
+  ]
+}

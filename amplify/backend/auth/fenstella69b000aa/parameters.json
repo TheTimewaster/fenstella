@@ -1,6 +1,6 @@
 {
     "identityPoolName": "fenstella69b000aa_identitypool_69b000aa",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "fenste69b000aa",
     "userPoolName": "fenstella69b000aa_userpool_69b000aa",
     "autoVerifiedAttributes": [
