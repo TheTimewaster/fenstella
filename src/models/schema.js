@@ -62,7 +62,8 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read"
+                                    "read",
+                                    "create"
                                 ],
                                 "provider": "apiKey"
                             },

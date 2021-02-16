@@ -1,0 +1,38 @@
+{
+    "paths": [
+        {
+            "name": "/message",
+            "lambdaFunction": "pushMessage",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST"
+                ]
+            },
+            "policyResourceName": "/message"
+        }
+    ],
+    "resourceName": "MessageAPI",
+    "apiName": "MessageAPI",
+    "functionArns": [
+        {
+            "lambdaFunction": "pushMessage"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-fenstella-dev-104512-authRole",
+        "unAuthRoleName": "amplify-fenstella-dev-104512-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "pushMessage",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
