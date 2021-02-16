@@ -2,17 +2,20 @@
 const axios = require("axios");
 const gql = require("graphql-tag");
 const graphql = require("graphql");
-const { v4: uuidv4 } = require("uuid");
 const { print } = graphql;
 
-const mutation = gql`mutation createMessage($input: CreateMessageInput!) {
-    createMessage(input: $input) {
-        id
-        content
-        timestamp
-        messageStatus
+const mutation = gql`
+    mutation createMessage($input: CreateMessageInput!) {
+        createMessage(input: $input) {
+            id
+            content
+            timestamp
+            messageStatus
+            _version
+            _lastChangedAt
+            _deleted
+        }
     }
-  }
   `;
 
 /* Amplify Params - DO NOT EDIT
