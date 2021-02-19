@@ -4,9 +4,7 @@ const gql = require("graphql-tag");
 const graphql = require("graphql");
 const { print } = graphql;
 
-const DISTANCE_MILLISECONDS = 1000 * 60;
-const NOW_TIMESTAMP = new Date().valueOf();
-
+const DELTA_MILLISECONDS = 1000 * 60;
 const listPublishedMessagesQuery = gql`
     query getPublishedMessage {
         listMessages(filter: {messageStatus: {eq: PUBLISHED}}) {
@@ -93,6 +91,8 @@ const updateMessage = async(message) => {
 Amplify Params - DO NOT EDIT */
 
 exports.handler = async() => {
+    const NOW_TIMESTAMP = new Date().valueOf();
+
     try {
         const { publishedMessagesResponse, stagedMessagesResponse } = await getMessages();
         let firstStagedMessage = null;
@@ -107,39 +107,51 @@ exports.handler = async() => {
             if (publishedMessages != null && publishedMessages.items[0] != null) {
                 publishedMessage = publishedMessages.items[0];
 
-                // if the distance between the last published message and current timestamp larger than the delta then display first staged message
+                // if the delta between the last published message and current timestamp larger than the delta then display first staged message
                 const delta = NOW_TIMESTAMP - publishedMessage.publishTimestamp;
-                if (delta >= DISTANCE_MILLISECONDS) {
-                    console.log(`Updating messages now. DELTA is ${delta}`);
-                    // publish message
-                    await updateMessage({
-                        id: firstStagedMessage.id,
-                        _version: firstStagedMessage._version,
-                        publishTimestamp: NOW_TIMESTAMP,
-                        messageStatus: "PUBLISHED"
-                    });
+                if (delta >= DELTA_MILLISECONDS) {
+                    console.log(`Updating messages. DELTA is ${delta}`);
 
-                    // move published message to archived
-                    await updateMessage({
-                        id: publishedMessage.id,
-                        _version: publishedMessage._version,
-                        messageStatus: "ARCHIVED"
-                    });
+                    const [newPublishedMessage, archivedMessage] = Promise.all([
+                        // publish message
+                        updateMessage({
+                            id: firstStagedMessage.id,
+                            _version: firstStagedMessage._version,
+                            publishTimestamp: NOW_TIMESTAMP,
+                            messageStatus: "PUBLISHED"
+                        }),
+                        // move published message to archived
+                        updateMessage({
+                            id: publishedMessage.id,
+                            _version: publishedMessage._version,
+                            messageStatus: "ARCHIVED"
+                        })
+                    ]);
+
+                    return {
+                        statusCode: 200,
+                        body: { message: "done", newPublishedMessage, archivedMessage }
+                    };
                 }
             } else {
                 // publish message
-                await updateMessage({
+                const newPublishedMessage = await updateMessage({
                     id: firstStagedMessage.id,
                     _version: firstStagedMessage._version,
                     publishTimestamp: NOW_TIMESTAMP,
                     messageStatus: "PUBLISHED"
                 });
+
+                return {
+                    statusCode: 200,
+                    body: { message: "done", newPublishedMessage }
+                };
             }
         }
 
         return {
             statusCode: 200,
-            body: { message: "done", firstStagedMessage, publishedMessage }
+            body: { message: "no changes" }
         };
     } catch (error) {
         console.error(error);
