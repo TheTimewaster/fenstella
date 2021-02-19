@@ -23,6 +23,10 @@
         "FenstellaLayer": {
           "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
           "s3Key": "amplify-builds/FenstellaLayer-build.zip"
+        },
+        "displayMessage": {
+          "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
+          "s3Key": "amplify-builds/displayMessage-2f545071326750346d54-build.zip"
         }
       }
     },
