@@ -112,7 +112,7 @@ exports.handler = async() => {
                 if (delta >= DELTA_MILLISECONDS) {
                     console.log(`Updating messages. DELTA is ${delta}`);
 
-                    const [newPublishedMessage, archivedMessage] = Promise.all([
+                    const [newPublishedMessage, archivedMessage] = await Promise.all([
                         // publish message
                         updateMessage({
                             id: firstStagedMessage.id,
