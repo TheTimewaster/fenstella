@@ -1,7 +1,7 @@
 <template>
     <div class="messages-list" >
         <div class="messages-item" v-for="item in messages" :key="item.id">
-            <span class="overline">{{ item.timestamp | toDateTime }}</span>
+            <span class="overline">{{ item.timestamp | timeDelta(currentTimestamp) }}</span>
             <h5>{{item.content}}</h5>
             <div class="messages-item__actions">
                 <slot v-bind:item="item">
@@ -15,23 +15,11 @@
 import { Message } from "@/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component({
-    // All component options are allowed in here
-    filters: {
-        toDateTime: function(timestamp: number): string {
-            return Intl.DateTimeFormat("de-EN", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric"
-            }).format(new Date(timestamp));
-        }
-    }
-})
+@Component
 export default class MessagesList extends Vue {
     @Prop({ type: Array, default: () => [] }) messages!: Array<Message>;
+
+    currentTimestamp: number = new Date().valueOf();
 }
 </script>
 
@@ -39,7 +27,7 @@ export default class MessagesList extends Vue {
 .messages{
     &-item {
         padding: 16px;
-        border-radius: 16px;
+        border-radius:8px;
         background: #f5f5f5;
         margin-bottom: 8px;
 

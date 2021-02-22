@@ -1,16 +1,19 @@
-button {
+.btn {
     padding: 8px 16px;
     border-radius: 4px;
     outline: none;
     border: none;
-}
-
-.btn {
     transition: background-color .2s ease-in, border-color .2s ease-in, color .2s ease-in;
     font-weight: bold;
+    font-size: 1rem;
 
     &:focus, &:hover {
         cursor: pointer;
+    }
+
+    &:disabled {
+        background-color: lighten(@color-primary, 10%);
+        cursor: default;
     }
 
     &--primary {
@@ -30,6 +33,10 @@ button {
         &:focus, &:hover {
             border-color: @color-primary-dark;
             color: @color-primary-dark;
+        }
+
+        &--fill {
+            background-color: white;
         }
     }
 }

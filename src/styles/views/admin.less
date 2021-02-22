@@ -1,9 +1,15 @@
+@import "../variables.less";
 .admin-view {
     display: flex;
     flex-direction: column;
+    padding-bottom: 3rem;
 
     &__nav {
         overflow: auto;
+        background-color: white;
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
 
         &-link {
             text-decoration: none;
@@ -13,7 +19,7 @@
             cursor: pointer;
             color: black;
 
-            h1 {
+            h4 {
                 margin: 0;
             }
 
@@ -35,5 +41,10 @@
         position: fixed;
         bottom: 10px;
         left: 0;
+    }
+    
+    input {
+        width: 100%;
+        position: relative;
     }
 }
