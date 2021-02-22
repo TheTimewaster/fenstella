@@ -5,7 +5,6 @@
                 <router-link to="/">Wall</router-link>
                 <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
                 <router-link v-else to="/admin/new">Admin</router-link>
-                <router-link to="/about">About</router-link>
             </div>
             <div class="flex-1 d-flex flex-justify-end">
                 <button v-if="isAuthenticated" class="btn" @click="logout">Logout</button>

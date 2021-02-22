@@ -9,26 +9,31 @@
             <router-view />
         </div>
         <div class="admin-view__input">
-            <button v-show="!messageInput.isDisplayInput" class="btn btn--primary" @click="messageInput.isDisplayInput = true">New message</button>
-            <div v-if="messageInput.isDisplayInput" class="admin-view__input-container d-flex">
-                <button class="btn btn--secondary" @click="messageInput.isDisplayInput = false">Close</button>
-                <input type="text" v-model="messageInput.content" :disabled="messageInput.isLoading" />
-                <button class="btn btn--primary" @click="addMessage" :disabled="messageInput.isLoading">Add</button>
-                <p v-if="messageInput.error.length > 0">{{ messageInput.error }}</p>
-            </div>
+            <button class="btn btn--primary" @click="showModal">New message</button>
         </div>
+        <app-modal ref="modal">
+            <template slot="modal-content">
+                <input ref="input" type="text" v-model="messageInput.content" :disabled="messageInput.isLoading" />
+                <div class="d-flex flex-justify-end mar-t--2x">
+                    <div class="text-align-left flex-1">
+                        <p v-if="messageInput.error.length > 0">{{ messageInput.error }}</p>
+                    </div>
+                    <button class="btn btn--primary" @click="addMessage" :disabled="messageInput.content.length == 0 || messageInput.isLoading">Add</button>
+                </div>
+            </template>
+        </app-modal>
     </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import MessageService from "@/services/message.service";
+import AppModal from "@/components/app-modal.vue";
 
-@Component
+@Component({ components: { AppModal } })
 export default class AdminView extends Vue {
     /* data */
     messageInput = {
-        isDisplayInput: false,
         content: "",
         isLoading: false,
         error: ""
@@ -43,6 +48,13 @@ export default class AdminView extends Vue {
         if (this.$store.state.auth.user == null) {
             this.$router.push("/login");
         }
+    }
+
+    showModal() {
+        (this.$refs.modal as AppModal).showModal()
+            .then(() => {
+                (this.$refs.input as HTMLInputElement).focus();
+            });
     }
 
     async addMessage() {

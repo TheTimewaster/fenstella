@@ -8,9 +8,16 @@
             <template v-slot="{item}">
                 <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
                 <button class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
-                <button class="btn btn--primary" @click="assignStatus(item, 'STAGED')">Approve</button>
+                <button class="btn btn--primary" @click="stageMessage(item, 'STAGED')">Publish</button>
             </template>
         </messages-list>
+
+        <app-modal ref="modal">
+            <template slot="modal-content">
+                <div class="mar-b--2x">{{ confirmation.text }}</div>
+                <div class="d-flex flex-justify-end"><button class="btn btn--primary" @click="confirmation.button.action">{{ confirmation.button.content }}</button></div>
+            </template>
+        </app-modal>
     </section>
 </template>
 
@@ -18,15 +25,26 @@
 import { Message, MessageStatus } from "@/models";
 import messageService from "@/services/message.service";
 import { Component, Vue } from "vue-property-decorator";
-import messagesList from "@/components/messages-list.vue";
+import MessagesList from "@/components/messages-list.vue";
+import AppModal from "@/components/app-modal.vue";
 
 @Component({
     components: {
-        messagesList
+        MessagesList,
+        AppModal
     }
 })
 export default class NewMessagesView extends Vue {
     messages: Array<Message> = [];
+    confirmation: ConfirmationModel = {
+        text: "",
+        button: {
+            content: "Yes",
+            action: () => undefined,
+            disabled: false
+        }
+    };
+
     readonly OBSERVER_KEY = "new_messages";
 
     created() {
@@ -48,6 +66,7 @@ export default class NewMessagesView extends Vue {
                 this.messages = this.messages.filter(m => m.id !== message.id);
             }
         }, this.OBSERVER_KEY, MessageStatus.NEW);
+
         this.getMessages();
     }
 
@@ -60,13 +79,54 @@ export default class NewMessagesView extends Vue {
         this.getMessages();
     }
 
-    deleteMessage(message: Message) {
-        messageService.deleteMessage(message);
+    async stageMessage(message: Message) {
+        const stageAction = async() => {
+            this.confirmation.button.disabled = true;
+            await messageService.assignStatus(message, MessageStatus.STAGED);
+            await (this.$refs.modal as AppModal).closeModal();
+            this.getMessages();
+        };
+        this.confirmation = {
+            text: "Are you sure you want to publish the message?",
+            button: {
+                content: "Publish",
+                action: stageAction,
+                disabled: false
+            }
+        };
+        (this.$refs.modal as AppModal).showModal();
+    }
+
+    async deleteMessage(message: Message) {
+        const deleteAction = async() => {
+            this.confirmation.button.disabled = true;
+            await messageService.deleteMessage(message);
+            await (this.$refs.modal as AppModal).closeModal();
+            this.getMessages();
+        };
+        this.confirmation = {
+            text: "Are you sure you want to remove the message?",
+            button: {
+                content: "Remove",
+                action: deleteAction,
+                disabled: false
+            }
+        };
+        (this.$refs.modal as AppModal).showModal();
     }
 
     beforeDestroy() {
         messageService.closeObserver(this.OBSERVER_KEY);
     }
+}
+
+declare type ConfirmationModel= {
+    text: string;
+    button: {
+        content: string;
+        action: Function;
+        disabled: boolean;
+    };
 }
 </script>
 
