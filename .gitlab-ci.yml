@@ -2,15 +2,19 @@ stages:
     - build
     - test
 
+cache:
+  paths:
+    - node_modules/ 
+
 build:
     stage: build
     script:
-        - echo "Building"
-        - mkdir build
-        - touch build/info.txt
+        - npm install --progress=false
+        - npm run build
     artifacts:
+        expire_in: 1 week
         paths:
-            - build/
+            - dist/
 
 test: 
     stage: test
