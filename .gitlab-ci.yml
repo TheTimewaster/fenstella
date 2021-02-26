@@ -4,13 +4,15 @@ stages:
 
 cache:
   paths:
-    - node_modules/ 
+    - node_modules/
 
 build:
     stage: build
     script:
         - npm install --progress=false
         - npm run build
+    only:
+        - develop
     artifacts:
         expire_in: 1 week
         paths:
