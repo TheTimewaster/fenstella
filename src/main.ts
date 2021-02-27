@@ -25,10 +25,7 @@ store.dispatch("auth/init")
     .then((sess) => {
         if (sess != null) {
             addAdminRoutes(router);
-            router.push("/admin/new")
-                .then(() => {
-                    initVue();
-                });
+            initVue();
         } else {
             // eslint-disable-next-line @typescript-eslint/camelcase
             awsExports.aws_appsync_authenticationType = "API_KEY";

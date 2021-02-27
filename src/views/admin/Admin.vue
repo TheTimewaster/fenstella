@@ -39,10 +39,6 @@ export default class AdminView extends Vue {
         error: ""
     }
 
-    /* computed */
-
-    /* computed methods */
-
     /* methods */
     created() {
         if (this.$store.state.auth.user == null) {

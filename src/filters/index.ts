@@ -21,8 +21,7 @@ export function timeDelta(timestamp: number, currentTimestamp: number): string {
     if (delta >= HOUR * 4 && delta < HOUR * 24) {
         return Intl.DateTimeFormat("en-DE", {
             hour: "numeric",
-            minute: "numeric",
-            second: "numeric"
+            minute: "numeric"
         }).format(new Date(timestamp));
     }
 
@@ -30,8 +29,7 @@ export function timeDelta(timestamp: number, currentTimestamp: number): string {
         return Intl.DateTimeFormat("en-DE", {
             weekday: "long",
             hour: "numeric",
-            minute: "numeric",
-            second: "numeric"
+            minute: "numeric"
         }).format(new Date(timestamp));
     }
 
@@ -40,7 +38,6 @@ export function timeDelta(timestamp: number, currentTimestamp: number): string {
         month: "numeric",
         day: "numeric",
         hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
+        minute: "numeric"
     }).format(new Date(timestamp));
 }

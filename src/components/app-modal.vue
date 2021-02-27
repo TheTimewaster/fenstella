@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Velocity from "velocity-animate";
+import Velocity, { VelocityElements } from "velocity-animate";
 
 @Component
 export default class AppModal extends Vue {
@@ -37,12 +37,12 @@ export default class AppModal extends Vue {
   closeModal() {
       return this.$nextTick()
           .then(() => {
-              (this.$refs.backdrop as HTMLElement).style.opacity = "1";
-              (this.$refs.content as HTMLElement).style.bottom = "0";
+              (this.$refs.backdrop as HTMLDivElement).style.opacity = "1";
+              (this.$refs.content as HTMLDivElement).style.bottom = "0";
           })
           .then(() => {
-              const backdrop = this.$refs.backdrop;
-              const content = this.$refs.content;
+              const backdrop = this.$refs.backdrop as VelocityElements;
+              const content = this.$refs.content as VelocityElements;
               return Promise.all([
                   Velocity(backdrop, { opacity: 0 }, { duration: 200 }).promise,
                   Velocity(content, { bottom: "-100%" }, { duration: 200 }).promise
@@ -62,8 +62,8 @@ export default class AppModal extends Vue {
               (this.$refs.content as HTMLElement).style.bottom = "-100%";
           })
           .then(() => {
-              const backdrop = this.$refs.backdrop;
-              const content = this.$refs.content;
+              const backdrop = this.$refs.backdrop as VelocityElements;
+              const content = this.$refs.content as VelocityElements;
               return Promise.all([
                   Velocity(backdrop, { opacity: 1 }, { duration: 200 }).promise,
                   Velocity(content, { bottom: "0" }, { duration: 200 }).promise
