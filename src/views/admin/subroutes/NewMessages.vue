@@ -1,16 +1,20 @@
 <template>
     <section class="new-messages-view">
-        <div v-if="messages.length == 0" class="text-align-center">
+        <div v-if="isLoading && messages.length == 0" class="text-align-center">
             No new messages. ✨
         </div>
 
-        <messages-list v-else :messages="messages">
+        <messages-list v-else :messages="messages" @loadMore="getMoreMessages">
             <template v-slot="{item}">
                 <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
                 <button class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
                 <button class="btn btn--primary" @click="stageMessage(item, 'STAGED')">Publish</button>
             </template>
         </messages-list>
+        <div class="mar-t--2x text-align-center">
+            <template v-if="isLoading">Loading...</template>
+            <template v-else-if="endOfListReached">No more new messages. ✨</template>
+        </div>
 
         <app-modal ref="modal">
             <template slot="modal-content">
@@ -24,9 +28,10 @@
 <script lang="ts">
 import { Message, MessageStatus } from "@/models";
 import messageService from "@/services/message.service";
-import { Component, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import MessagesList from "@/components/messages-list.vue";
 import AppModal from "@/components/app-modal.vue";
+import MessagePageMixin from "./messages-page-mixin";
 
 @Component({
     components: {
@@ -34,8 +39,7 @@ import AppModal from "@/components/app-modal.vue";
         AppModal
     }
 })
-export default class NewMessagesView extends Vue {
-    messages: Array<Message> = [];
+export default class NewMessagesView extends MessagePageMixin {
     confirmation: ConfirmationModel = {
         text: "",
         button: {
@@ -67,24 +71,20 @@ export default class NewMessagesView extends Vue {
             }
         }, this.OBSERVER_KEY, MessageStatus.NEW);
 
+        this.getMessagesFn = messageService.getNewMessages;
         this.getMessages();
-    }
-
-    async getMessages() {
-        this.messages = await messageService.getNewMessages();
     }
 
     async assignStatus(message: Message, status: MessageStatus) {
         await messageService.assignStatus(message, status);
-        this.getMessages();
+        await this.getMessages();
     }
 
     async stageMessage(message: Message) {
         const stageAction = async() => {
             this.confirmation.button.disabled = true;
-            await messageService.assignStatus(message, MessageStatus.STAGED);
+            await this.assignStatus(message, MessageStatus.STAGED);
             await (this.$refs.modal as AppModal).closeModal();
-            this.getMessages();
         };
         this.confirmation = {
             text: "Are you sure you want to publish the message?",

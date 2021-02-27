@@ -1,8 +1,9 @@
 import { Message, MessageStatus } from "@/models";
 import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
 
+export const MESSAGES_PER_PAGE = 5;
 class MessageService {
-    observers: {[key: string]: any} = {};
+    observers: { [key: string]: any } = {};
 
     async saveNewMessage(content: string) {
         return DataStore.save(
@@ -36,31 +37,48 @@ class MessageService {
         return null;
     }
 
-    async getNewMessages() {
+    async getNewMessages(pageNum = 0) {
+        return DataStore.query(
+            Message,
+            ({ messageStatus }) => messageStatus("eq", MessageStatus.NEW),
+            {
+                sort: (message) => message.timestamp(SortDirection.DESCENDING),
+                page: pageNum,
+                limit: MESSAGES_PER_PAGE
+            });
+    }
+
+    async getStagedMessages(pageNum = 0) {
         return DataStore.query(Message,
-            ({ messageStatus }) => messageStatus("eq", MessageStatus.NEW), { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
+            ({ messageStatus }) => messageStatus("eq", MessageStatus.STAGED),
+            {
+                sort: (message) => message.timestamp(SortDirection.DESCENDING),
+                page: pageNum,
+                limit: MESSAGES_PER_PAGE
+            });
     }
 
-    async getStagedMessages() {
-        const msg = DataStore.query(Message,
-            ({ messageStatus }) => messageStatus("eq", MessageStatus.STAGED), { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
-        return msg;
-    }
-
-    async getArchivedMessages() {
-        const msg = DataStore.query(Message,
+    async getArchivedMessages(pageNum = 0) {
+        return DataStore.query(Message,
             m => m.or(
                 m => m
                     .messageStatus("eq", MessageStatus.ARCHIVED)
                     .messageStatus("eq", MessageStatus.DENIED)
-            )
-            , { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
-        return msg;
+            ),
+            {
+                sort: (message) => message.timestamp(SortDirection.DESCENDING),
+                page: pageNum,
+                limit: MESSAGES_PER_PAGE
+            });
     }
 
-    async getAllMessages() {
+    async getAllMessages(pageNum = 0) {
         return DataStore.query(Message,
-            Predicates.ALL, { sort: (message) => message.timestamp(SortDirection.DESCENDING) });
+            Predicates.ALL, {
+            sort: (message) => message.timestamp(SortDirection.DESCENDING),
+            page: pageNum,
+            limit: MESSAGES_PER_PAGE
+        });
     }
 
     async deleteMessage(message: Message) {
