@@ -6,7 +6,7 @@
             </slot>
         </div>
         <transition-group name="list" tag="section">
-            <div class="messages-item" v-for="item in messages" :key="item.id">
+            <div class="messages-item" :class="{'messages-item--denied': item.messageStatus === 'DENIED'}" v-for="item in messages" :key="item.id">
                 <div class="overline mar-b">{{ item.timestamp | timeDelta(currentTimestamp) }}</div>
                 <h5>{{item.content}}</h5>
                 <div class="messages-item__actions">
@@ -106,6 +106,15 @@ export default class MessagesList extends Vue {
         border-radius: .5rem;
         background: #f5f5f5;
         margin-bottom: .5rem;
+
+        &--denied {
+            opacity: .4;
+            transition: opacity .2s ease;
+
+            &:hover, &:focus {
+                opacity: 1;
+            }
+        }
 
         &__actions {
             margin: 0 -.5rem;

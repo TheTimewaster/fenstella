@@ -5,7 +5,8 @@
             :isLoading="isLoading"
             :endOfListReached="endOfListReached"
             :operations="['DELETE']"
-            @loadMore="getMoreMessages" >
+            @loadMore="getMoreMessages"
+            @messageChanged="getMessages">
             <template slot="messages-list-empty">
                 No archived messages. 😬
             </template>
