@@ -11,13 +11,19 @@
             </div>
         </div>
         <router-view class="view" />
+        <app-modal></app-modal>
     </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import AppModal from "@/components/app-modal.vue";
 
-@Component
+@Component({
+    components: {
+        AppModal
+    }
+})
 export default class App extends Vue {
     get isAuthenticated() {
         return this.$store.state.auth.user;
