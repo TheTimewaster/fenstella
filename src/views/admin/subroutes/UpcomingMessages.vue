@@ -1,13 +1,17 @@
 <template>
     <section class="archived-messages-view">
-        <div v-if="messages.length == 0" class="text-align-center">
-            No upcoming messages. 🕖
-        </div>
-
-        <messages-list v-else :messages="messages">
-            <template v-slot="{item}">
-                <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
-                <button class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
+        <messages-list
+            :messages="messages"
+            :isLoading="isLoading"
+            :endOfListReached="endOfListReached"
+            :operations="['DELETE', 'DENY']"
+            @loadMore="getMoreMessages"
+            @messageChanged="getMessages">
+            <template slot="messages-list-empty">
+                No upcoming messages. 🕖
+            </template>
+            <template slot="messages-list-nomore">
+                No more upcoming messages. ⌚
             </template>
         </messages-list>
     </section>
@@ -17,15 +21,15 @@
 import MessagesList from "@/components/messages-list.vue";
 import { Message, MessageStatus } from "@/models";
 import messageService from "@/services/message.service";
-import { Component, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
+import MessagePageMixin from "./messages-page-mixin";
 
 @Component({
     components: { MessagesList }
 })
-export default class UpcomingMessagesView extends Vue {
-    messages: Array<Message> = [];
-
+export default class UpcomingMessagesView extends MessagePageMixin {
     created() {
+        this.getMessagesFn = messageService.getStagedMessages;
         this.getMessages();
     }
 
@@ -38,13 +42,8 @@ export default class UpcomingMessagesView extends Vue {
         await messageService.deleteMessage(message);
         this.getMessages();
     }
-
-    async getMessages() {
-        this.messages = await messageService.getStagedMessages();
-    }
 }
 </script>
 
 <style scoped>
-
 </style>

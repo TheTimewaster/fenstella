@@ -9,51 +9,25 @@
             <router-view />
         </div>
         <div class="admin-view__input">
-            <button v-show="!messageInput.isDisplayInput" class="btn btn--primary" @click="messageInput.isDisplayInput = true">New message</button>
-            <div v-if="messageInput.isDisplayInput" class="admin-view__input-container d-flex">
-                <button class="btn btn--secondary" @click="messageInput.isDisplayInput = false">Close</button>
-                <input type="text" v-model="messageInput.content" :disabled="messageInput.isLoading" />
-                <button class="btn btn--primary" @click="addMessage" :disabled="messageInput.isLoading">Add</button>
-                <p v-if="messageInput.error.length > 0">{{ messageInput.error }}</p>
-            </div>
+            <button class="btn btn--primary" @click="showModal">New message</button>
         </div>
     </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import MessageService from "@/services/message.service";
+import AppModal from "@/components/app-modal.vue";
 
-@Component
+@Component({ components: { AppModal } })
 export default class AdminView extends Vue {
-    /* data */
-    messageInput = {
-        isDisplayInput: false,
-        content: "",
-        isLoading: false,
-        error: ""
-    }
-
-    /* computed */
-
-    /* computed methods */
-
-    /* methods */
     created() {
         if (this.$store.state.auth.user == null) {
             this.$router.push("/login");
         }
     }
 
-    async addMessage() {
-        this.messageInput.isLoading = true;
-        const newMessage = await MessageService.saveNewMessage(this.messageInput.content);
-        this.messageInput.isLoading = false;
-        if (newMessage == null) {
-            this.messageInput.error = "something went wrong";
-        } else {
-            this.messageInput.content = "";
-        }
+    showModal() {
+        this.$store.dispatch("modal/showModal", { name: "modal-message-input.vue" });
     }
 }
 </script>

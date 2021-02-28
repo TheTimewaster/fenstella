@@ -1,9 +1,16 @@
+@import "../variables.less";
 .admin-view {
     display: flex;
     flex-direction: column;
+    padding-bottom: 3rem;
 
     &__nav {
         overflow: auto;
+        background-color: white;
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1;
 
         &-link {
             text-decoration: none;
@@ -13,7 +20,13 @@
             cursor: pointer;
             color: black;
 
-            h1 {
+            @media screen and (max-width: 480px) {
+                h4 {
+                    font-size: 1.2em;
+                }
+            }
+
+            h4 {
                 margin: 0;
             }
 

@@ -1,12 +1,17 @@
 <template>
     <section class="archived-messages-view">
-        <div v-if="messages.length == 0" class="text-align-center">
-            No archived messages. 😬
-        </div>
-
-        <messages-list v-else :messages="messages">
-            <template v-slot="{item}">
-                <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
+        <messages-list
+            :messages="messages"
+            :isLoading="isLoading"
+            :endOfListReached="endOfListReached"
+            :operations="['DELETE']"
+            @loadMore="getMoreMessages"
+            @messageChanged="getMessages">
+            <template slot="messages-list-empty">
+                No archived messages. 😬
+            </template>
+            <template slot="messages-list-nomore">
+                No more archived messages. 👌
             </template>
         </messages-list>
     </section>
@@ -14,22 +19,17 @@
 <script lang="ts">
 import { Message } from "@/models";
 import messageService from "@/services/message.service";
-import Vue from "vue";
 import Component from "vue-class-component";
 import messagesList from "@/components/messages-list.vue";
+import MessagePageMixin from "./messages-page-mixin";
 
 @Component({
     components: { messagesList }
 })
-export default class ArchivedMessagesView extends Vue {
-    messages: Array<Message> = [];
-
+export default class ArchivedMessagesView extends MessagePageMixin {
     created() {
+        this.getMessagesFn = messageService.getArchivedMessages;
         this.getMessages();
-    }
-
-    async getMessages() {
-        this.messages = await messageService.getArchivedMessages();
     }
 
     async deleteMessage(message: Message) {

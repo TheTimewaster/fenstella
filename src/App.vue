@@ -5,20 +5,25 @@
                 <router-link to="/">Wall</router-link>
                 <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
                 <router-link v-else to="/admin/new">Admin</router-link>
-                <router-link to="/about">About</router-link>
             </div>
             <div class="flex-1 d-flex flex-justify-end">
                 <button v-if="isAuthenticated" class="btn" @click="logout">Logout</button>
             </div>
         </div>
         <router-view class="view" />
+        <app-modal></app-modal>
     </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import AppModal from "@/components/app-modal.vue";
 
-@Component
+@Component({
+    components: {
+        AppModal
+    }
+})
 export default class App extends Vue {
     get isAuthenticated() {
         return this.$store.state.auth.user;

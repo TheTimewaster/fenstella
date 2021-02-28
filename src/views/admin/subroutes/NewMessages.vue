@@ -1,32 +1,36 @@
 <template>
     <section class="new-messages-view">
-        <div v-if="messages.length == 0" class="text-align-center">
-            No new messages. ✨
-        </div>
-
-        <messages-list v-else :messages="messages">
-            <template v-slot="{item}">
-                <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
-                <button class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
-                <button class="btn btn--primary" @click="assignStatus(item, 'STAGED')">Approve</button>
+        <messages-list
+            :messages="messages"
+            :isLoading="isLoading"
+            :endOfListReached="endOfListReached"
+            @loadMore="getMoreMessages"
+            @messageChanged="getMessages">
+            <template slot="messages-list-empty">
+                No new messages. ✨
+            </template>
+            <template slot="messages-list-nomore">
+                No more new messages. ✨
             </template>
         </messages-list>
     </section>
 </template>
 
 <script lang="ts">
-import { Message, MessageStatus } from "@/models";
+import { MessageStatus } from "@/models";
 import messageService from "@/services/message.service";
-import { Component, Vue } from "vue-property-decorator";
-import messagesList from "@/components/messages-list.vue";
+import { Component } from "vue-property-decorator";
+import MessagesList from "@/components/messages-list.vue";
+import AppModal from "@/components/app-modal.vue";
+import MessagePageMixin from "./messages-page-mixin";
 
 @Component({
     components: {
-        messagesList
+        MessagesList,
+        AppModal
     }
 })
-export default class NewMessagesView extends Vue {
-    messages: Array<Message> = [];
+export default class NewMessagesView extends MessagePageMixin {
     readonly OBSERVER_KEY = "new_messages";
 
     created() {
@@ -48,20 +52,9 @@ export default class NewMessagesView extends Vue {
                 this.messages = this.messages.filter(m => m.id !== message.id);
             }
         }, this.OBSERVER_KEY, MessageStatus.NEW);
+
+        this.getMessagesFn = messageService.getNewMessages;
         this.getMessages();
-    }
-
-    async getMessages() {
-        this.messages = await messageService.getNewMessages();
-    }
-
-    async assignStatus(message: Message, status: MessageStatus) {
-        await messageService.assignStatus(message, status);
-        this.getMessages();
-    }
-
-    deleteMessage(message: Message) {
-        messageService.deleteMessage(message);
     }
 
     beforeDestroy() {
