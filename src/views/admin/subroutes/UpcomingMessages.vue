@@ -1,19 +1,18 @@
 <template>
     <section class="archived-messages-view">
-        <div v-if="!isLoading && messages.length == 0" class="text-align-center">
-            No upcoming messages. 🕖
-        </div>
-
-        <messages-list v-else :messages="messages" @loadMore="getMoreMessages">
-            <template v-slot="{item}">
-                <button class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
-                <button class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
+        <messages-list
+            :messages="messages"
+            :isLoading="isLoading"
+            :endOfListReached="endOfListReached"
+            :operations="['DELETE', 'DENY']"
+            @loadMore="getMoreMessages" >
+            <template slot="messages-list-empty">
+                No upcoming messages. 🕖
+            </template>
+            <template slot="messages-list-nomore">
+                No more upcoming messages. ⌚
             </template>
         </messages-list>
-        <div class="mar-t--2x text-align-center">
-            <template v-if="isLoading">Loading...</template>
-            <template v-else-if="endOfListReached">No more upcoming messages. ⌚</template>
-        </div>
     </section>
 </template>
 
@@ -46,5 +45,4 @@ export default class UpcomingMessagesView extends MessagePageMixin {
 </script>
 
 <style scoped>
-
 </style>

@@ -1,85 +1,92 @@
 <template>
     <div class="app-modal">
-        <template v-if="isShowing">
-            <div class="app-modal__container">
-                <div
-                    ref="backdrop"
-                    class="app-modal__backdrop"
-                    @click="closeModal"
-                ></div>
-                <div ref="content" class="app-modal__content">
-                    <div class="app-modal__body mar--2x pad--2x">
-                        <slot name="modal-content"></slot>
-                    </div>
-                    <div class="app-modal__footer">
-                        <slot name="modal-actions"></slot>
-                        <button
-                            class="btn btn--secondary--full full-width"
-                            @click="closeModal"
-                        >
-                            Cancel
-                        </button>
-                    </div>
+        <div v-if="isSelfVisible" class="app-modal__container">
+            <div
+                ref="backdrop"
+                class="app-modal__backdrop"
+                @click="commitClose"
+            ></div>
+            <div ref="content" class="app-modal__content">
+                <div v-if="contentComponent != null" class="app-modal__body mar--2x pad--2x">
+                    <component :is="contentComponent" v-bind="componentProps"></component>
+                </div>
+                <div class="app-modal__footer">
+                    <slot name="modal-actions"></slot>
+                    <button
+                        class="btn btn--secondary--full full-width"
+                        @click="commitClose"
+                    >
+                        Cancel
+                    </button>
                 </div>
             </div>
-        </template>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import Velocity, { VelocityElements } from "velocity-animate";
+import { MutationTypes } from "@/store/mutation-types";
 
 @Component
 export default class AppModal extends Vue {
-  isShowing = false;
+    isSelfVisible = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    contentComponent: any | null = null;
 
-  closeModal() {
-      return this.$nextTick()
-          .then(() => {
-              (this.$refs.backdrop as HTMLDivElement).style.opacity = "1";
-              (this.$refs.content as HTMLDivElement).style.bottom = "0";
-          })
-          .then(() => {
-              const backdrop = this.$refs.backdrop as VelocityElements;
-              const content = this.$refs.content as VelocityElements;
-              return Promise.all([
-                  Velocity(backdrop, { opacity: 0 }, { duration: 200 }).promise,
-                  Velocity(content, { bottom: "-100%" }, { duration: 200 }).promise
-              ]);
-          })
-          .then(() => {
-              this.isShowing = false;
-          });
-  }
+    get isVisible() {
+        return this.$store.state.modal.isVisible;
+    }
 
-  showModal() {
-      this.isShowing = true;
+    get componentProps() {
+        return this.$store.state.modal.component.props;
+    }
 
-      return this.$nextTick()
-          .then(() => {
-              (this.$refs.backdrop as HTMLElement).style.opacity = "0";
-              (this.$refs.content as HTMLElement).style.bottom = "-100%";
-          })
-          .then(() => {
-              const backdrop = this.$refs.backdrop as VelocityElements;
-              const content = this.$refs.content as VelocityElements;
-              return Promise.all([
-                  Velocity(backdrop, { opacity: 1 }, { duration: 200 }).promise,
-                  Velocity(content, { bottom: "0" }, { duration: 200 }).promise
-              ]);
-          });
-  }
+    commitClose() {
+        this.$store.commit("modal/" + MutationTypes.MODAL_HIDE);
+    }
+
+    async closeModal() {
+        (this.$refs.backdrop as HTMLDivElement).style.opacity = "1";
+        (this.$refs.content as HTMLDivElement).style.bottom = "0";
+
+        const content = this.$refs.content as VelocityElements;
+        await Velocity(content, { bottom: "-100%" }, { duration: 250 }).promise;
+
+        const backdrop = this.$refs.backdrop as VelocityElements;
+        await Velocity(backdrop, { opacity: 0 }, { duration: 100 }).promise;
+        this.isSelfVisible = false;
+    }
+
+    async showModal() {
+        this.isSelfVisible = true;
+
+        await this.$nextTick();
+        (this.$refs.backdrop as HTMLElement).style.opacity = "0";
+        (this.$refs.content as HTMLElement).style.bottom = "-100%";
+
+        const backdrop = this.$refs.backdrop as VelocityElements;
+        await Velocity(backdrop, { opacity: 1 }, { duration: 100 }).promise;
+
+        const content = this.$refs.content as VelocityElements;
+        await Velocity(content, { bottom: "0" }, { duration: 250 }).promise;
+    }
+
+    @Watch("isVisible")
+    async onIsVisibleChanged() {
+        if (this.isVisible) {
+            this.contentComponent = Vue.component("modal-confirm", async() => await import(`@/components/modals/${this.$store.state.modal.component.name}`));
+            this.showModal();
+        } else {
+            this.closeModal();
+        }
+    }
 }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 .app-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-
   &__backdrop {
     width: 100vw;
     height: 100vh;
@@ -107,9 +114,9 @@ export default class AppModal extends Vue {
 
   @media screen and (min-width: 1024px) {
         .app-modal__content {
-            max-width: 480px;
+            max-width: 640px;
             left: 50%;
-            margin-left: -240px;
+            margin-left: -320px;
         }
     }
 }

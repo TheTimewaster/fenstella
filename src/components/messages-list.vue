@@ -1,24 +1,44 @@
 <template>
     <div class="messages-list" ref="messagesList">
-        <div class="messages-item" v-for="item in messages" :key="item.id">
-            <span class="overline">{{ item.timestamp | timeDelta(currentTimestamp) }}</span>
-            <h5>{{item.content}}</h5>
-            <div class="messages-item__actions">
-                <slot v-bind:item="item">
-                </slot>
+        <div v-if="!isLoading && messages.length === 0" class="mar-t--2x text-align-center">
+            <slot name="messages-list-empty">
+                No messages.
+            </slot>
+        </div>
+        <transition-group name="list" tag="section">
+            <div class="messages-item" v-for="item in messages" :key="item.id">
+                <div class="overline mar-b">{{ item.timestamp | timeDelta(currentTimestamp) }}</div>
+                <h5>{{item.content}}</h5>
+                <div class="messages-item__actions">
+                    <button v-if="operations.indexOf('DELETE') >= 0" class="btn btn--secondary" @click="deleteMessage(item)">Delete</button>
+                    <button v-if="operations.indexOf('DENY') >= 0"  class="btn btn--secondary" @click="assignStatus(item, 'DENIED')">Deny</button>
+                    <button v-if="operations.indexOf('STAGE') >= 0" class="btn btn--primary" @click="stageMessage(item, 'STAGED')">Publish</button>
+                </div>
             </div>
+        </transition-group>
+        <div class="mar-t--2x text-align-center">
+            <template v-if="isLoading">Loading...</template>
+            <template v-else-if="endOfListReached && messages.length > 0">
+                <slot name="messages-list-nomore">
+                    No more messages.
+                </slot>
+            </template>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { Message } from "@/models";
+import { Message, MessageStatus } from "@/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { debounce } from "@/utilites";
+import messageService from "@/services/message.service";
 
 @Component
 export default class MessagesList extends Vue {
     @Prop({ type: Array, default: () => [] }) messages!: Array<Message>;
+    @Prop({ type: Boolean, default: true }) isLoading!: boolean;
+    @Prop({ type: Boolean, default: true }) endOfListReached!: boolean;
+    @Prop({ type: Array, default: () => ["DELETE", "DENY", "STAGE"] }) operations!: Array<string>;
 
     currentTimestamp: number = new Date().valueOf();
     scrollDebounceFn: (event: Event) => void = () => undefined;
@@ -28,6 +48,44 @@ export default class MessagesList extends Vue {
         if (messagesList.getBoundingClientRect().bottom < window.innerHeight) {
             this.$emit("loadMore");
         }
+    }
+
+    async assignStatus(message: Message, status: MessageStatus) {
+        await messageService.assignStatus(message, status);
+        this.$emit("messageChanged", message);
+    }
+
+    async stageMessage(message: Message) {
+        this.$store.dispatch("modal/showModal", {
+            name: "modal-message-confirm.vue",
+            props: {
+                text: "Are you sure you want to publish the message?",
+                button: {
+                    content: "Publish",
+                    action: async() => {
+                        await this.assignStatus(message, MessageStatus.STAGED);
+                        this.$store.dispatch("modal/hideModal");
+                    }
+                }
+            }
+        });
+    }
+
+    async deleteMessage(message: Message) {
+        this.$store.dispatch("modal/showModal", {
+            name: "modal-message-confirm.vue",
+            props: {
+                text: "Are you sure you want to delete the message?",
+                button: {
+                    content: "Delete",
+                    action: async() => {
+                        await messageService.deleteMessage(message);
+                        this.$emit("messageChanged", message);
+                        this.$store.dispatch("modal/hideModal");
+                    }
+                }
+            }
+        });
     }
 
     mounted() {
@@ -44,17 +102,30 @@ export default class MessagesList extends Vue {
 <style scoped lang="less">
 .messages{
     &-item {
-        padding: 16px;
-        border-radius:8px;
+        padding: 1rem;
+        border-radius: .5rem;
         background: #f5f5f5;
-        margin-bottom: 8px;
+        margin-bottom: .5rem;
 
         &__actions {
-            margin: 0 -8px;
+            margin: 0 -.5rem;
             button {
-                margin: 0 8px;
+                margin: 0 .5rem;
             }
         }
     }
+}
+
+.list-enter-active, .list-leave-active {
+  transition: all .5s;
+}
+.list-enter  {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }
 </style>

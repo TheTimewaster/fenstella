@@ -1,6 +1,6 @@
 import { Message } from "@/models";
-import { MESSAGES_PER_PAGE } from "@/services/message.service";
 import { Component, Vue } from "vue-property-decorator";
+import { MESSAGES_PER_PAGE } from "@/services/message.service";
 
 @Component
 export default class MessagePageMixin extends Vue {
@@ -13,6 +13,7 @@ export default class MessagePageMixin extends Vue {
     async getMessages() {
         this.isLoading = true;
         this.messages = await this.getMessagesFn();
+        this.endOfListReached = this.messages.length < MESSAGES_PER_PAGE;
         this.isLoading = false;
     }
 
