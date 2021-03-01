@@ -2,18 +2,26 @@
 
 html {
   font-size: 16px;
+  height: 100%;
 }
 
 body {
   margin: 0;
-  padding: 1rem;
+  height: 100%;
+  background-color: white;
+  color                  : black;
+  transition: background-color .5s ease;
 }
 
 #app {
+  box-sizing: border-box;
+  padding: 1rem;
   font-family            : Inter, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing : antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color                  : black;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   @media only screen and (min-width: 1024px) {
     max-width: 1024px;
@@ -22,13 +30,19 @@ body {
   }
 }
 
-#nav {
-  
+.nav {
   a {
     line-height: 2rem;
     font-weight: bold;
     color      : black;
     margin     : 0 .5rem;
+    text-decoration: none;
+    opacity: .4;
+    transition: opacity .5s ease;
+
+    &:hover {
+      opacity: 1;
+    }
 
     &.router-link-exact-active {
       color: #42b983;
@@ -36,9 +50,33 @@ body {
   }
 }
 
+.view {
+  flex: 1;
+}
+
 .app-modal {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
+}
+
+:fullscreen {
+  body {
+    background-color: black;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .wall {
+    color: white;
+
+    &-bottom {
+      .btn {
+        display: none;
+      }
+    }
+  }
 }

@@ -1,7 +1,15 @@
 <template>
     <div class="wall">
-        <h1 v-if="messageContent.length">{{ messageContent }}</h1>
-        <span v-else>No messages 😬</span>
+        <div class="wall-main d-flex flex-column flex-justify-center">
+            <h4 v-if="messageContent.length">{{ messageContent }}</h4>
+            <span v-else>No messages 😬</span>
+        </div>
+
+        <div class="wall-bottom">
+            <button class="btn btn--primary" @click="enableFullscren">
+                Fullscreen
+            </button>
+        </div>
     </div>
 </template>
 
@@ -14,28 +22,52 @@ import Component from "vue-class-component";
 
 @Component
 export default class WallView extends Vue {
-  messageContent = "";
-  readonly OBSERVER_KEY = "published_message";
+    messageContent = "";
+    readonly OBSERVER_KEY = "published_message";
 
-  async created() {
-      messageService.observeMessage({
-          INSERT: this.assignMessageContent,
-          UPDATE: this.assignMessageContent,
-          DELETE: () => undefined
-      }, this.OBSERVER_KEY, MessageStatus.PUBLISHED);
+    async created() {
+        messageService.observeMessage({
+            INSERT: this.assignMessageContent,
+            UPDATE: this.assignMessageContent,
+            DELETE: () => undefined
+        }, this.OBSERVER_KEY, MessageStatus.PUBLISHED);
 
-      const msg = await messageService.getLastPublishedMessage();
-      if (msg != null) {
-          this.assignMessageContent(msg);
-      }
-  }
+        const msg = await messageService.getLastPublishedMessage();
+        if (msg != null) {
+            this.assignMessageContent(msg);
+        }
+    }
 
-  assignMessageContent(message: Message) {
-      this.messageContent = message.content;
-  }
+    enableFullscren() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
 
-  beforeDestroy() {
-      messageService.closeObserver(this.OBSERVER_KEY);
-  }
+    assignMessageContent(message: Message) {
+        this.messageContent = message.content;
+    }
+
+    beforeDestroy() {
+        messageService.closeObserver(this.OBSERVER_KEY);
+    }
 };
 </script>
+<style lang="less" scoped>
+.wall {
+    display: flex;
+    flex-direction: column;
+    &-main {
+        text-align: center;
+        flex: 1;
+    }
+
+    &-bottom {
+        padding: .5rem;
+    }
+}
+</style>

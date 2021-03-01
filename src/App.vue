@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div id="nav" class="d-flex">
+        <div class="d-flex nav">
             <div class="flex-1">
                 <router-link to="/">Wall</router-link>
                 <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
