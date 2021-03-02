@@ -5,7 +5,8 @@
             :isLoading="isLoading"
             :endOfListReached="endOfListReached"
             @loadMore="getMoreMessages"
-            @messageChanged="getMessages">
+            @messageChanged="getMessages"
+        >
             <template slot="messages-list-empty">
                 No new messages. ✨
             </template>
@@ -62,7 +63,3 @@ export default class NewMessagesView extends MessagePageMixin {
     }
 }
 </script>
-
-<style scoped lang="less">
-
-</style>

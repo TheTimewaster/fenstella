@@ -1,7 +1,7 @@
 <template>
     <div class="app-modal">
         <transition
-            @before-enter="beforeEnterTransition"
+            @beforeEnter="beforeEnterTransition"
             @enter="enterTransition"
             @leave="leaveTransition"
         >
@@ -76,11 +76,16 @@ export default class AppModal extends Vue {
 
     @Watch("isVisible")
     async onIsVisibleChanged() {
+        const body = document.querySelector("body");
         if (this.isVisible) {
             this.contentComponent = Vue.component("modal-confirm", async() => await import(`@/components/modals/${this.$store.state.modal.component.name}`));
             this.isSelfVisible = true;
+            if (body == null) return;
+            body.classList.add("overflow-hidden");
         } else {
             this.isSelfVisible = false;
+            if (body == null) return;
+            body.classList.remove("overflow-hidden");
         }
     }
 }
@@ -88,32 +93,40 @@ export default class AppModal extends Vue {
 
 <style scoped lang="less">
 .app-modal {
-  &__backdrop {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
+    &__container {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
 
-  &__content {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-  }
+    &__backdrop {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 
-  &__body {
-    border-radius: 4px;
-    background-color: white;
-  }
+    &__content {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
 
-  &__footer {
-    margin: 8px 16px 16px 16px;
-  }
+    &__body {
+        border-radius: 4px;
+        background-color: white;
+    }
 
-  .full-width {
-    width: 100%;
-  }
+    &__footer {
+        margin: 8px 16px 16px 16px;
+    }
 
-  @media screen and (min-width: 1024px) {
+    .full-width {
+        width: 100%;
+    }
+
+    @media screen and (min-width: 1024px) {
         .app-modal__content {
             max-width: 640px;
             left: 50%;

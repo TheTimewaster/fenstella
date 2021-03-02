@@ -1,9 +1,10 @@
 import { Message, MessageStatus } from "@/models";
 import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
+import { ZenObservable } from "zen-observable-ts";
 
-export const MESSAGES_PER_PAGE = 5;
+export const MESSAGES_PER_PAGE = 20;
 class MessageService {
-    observers: { [key: string]: any } = {};
+    observers: { [key: string]: ZenObservable.Subscription } = {};
 
     async saveNewMessage(content: string) {
         return DataStore.save(
@@ -75,10 +76,10 @@ class MessageService {
     async getAllMessages(pageNum = 0) {
         return DataStore.query(Message,
             Predicates.ALL, {
-            sort: (message) => message.timestamp(SortDirection.DESCENDING),
-            page: pageNum,
-            limit: MESSAGES_PER_PAGE
-        });
+                sort: (message) => message.timestamp(SortDirection.DESCENDING),
+                page: pageNum,
+                limit: MESSAGES_PER_PAGE
+            });
     }
 
     async deleteMessage(message: Message) {

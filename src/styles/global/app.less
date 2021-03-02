@@ -1,82 +1,94 @@
 @import "../variables.less";
 
 html {
-  font-size: 16px;
-  height: 100%;
+    font-size: 16px;
+    height: 100%;
 }
 
 body {
-  margin: 0;
-  height: 100%;
-  background-color: white;
-  color                  : black;
-  transition: background-color .5s ease;
+    margin: 0;
+    height: 100%;
+    background-color: white;
+    color: black;
+    transition: background-color 1s ease-in;
+
+    &.overflow-hidden {
+        overflow: hidden;
+    }
 }
 
 #app {
-  box-sizing: border-box;
-  padding: 1rem;
-  font-family            : Inter, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing : antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    box-sizing: border-box;
+    padding: 1rem;
+    font-family: Inter, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
-  @media only screen and (min-width: 1024px) {
-    max-width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    @media only screen and (min-width: 1024px) {
+        max-width: 1024px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .nav {
-  a {
-    line-height: 2rem;
-    font-weight: bold;
-    color      : black;
-    margin     : 0 .5rem;
-    text-decoration: none;
-    opacity: .4;
-    transition: opacity .5s ease;
+    a {
+        line-height: 2rem;
+        font-weight: bold;
+        color: black;
+        margin: 0 0.5rem;
+        text-decoration: none;
+        opacity: 0.4;
+        transition: opacity 0.5s ease;
 
-    &:hover {
-      opacity: 1;
-    }
+        &:hover {
+            opacity: 1;
+        }
 
-    &.router-link-exact-active {
-      color: #42b983;
+        &.router-link-active {
+            color: #42b983;
+        }
     }
-  }
 }
 
 .view {
-  flex: 1;
-}
-
-.app-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
+    flex: 1;
 }
 
 :fullscreen {
-  body {
-    background-color: black;
-  }
-
-  .nav {
-    display: none;
-  }
-
-  .wall {
-    color: white;
-
-    &-bottom {
-      .btn {
-        display: none;
-      }
+    body {
+        background-color: black;
     }
-  }
+
+    .nav {
+        opacity: 0;
+    }
+
+    .wall {
+        color: white;
+
+        &-bottom {
+            .btn {
+                opacity: 0;
+            }
+        }
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition-property: opacity;
+    transition-duration: 0.25s;
+}
+
+.fade-enter-active {
+    transition-delay: 0.25s;
+}
+
+.fade-enter,
+.fade-leave-active {
+    opacity: 0;
 }

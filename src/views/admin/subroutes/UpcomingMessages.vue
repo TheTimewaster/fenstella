@@ -6,7 +6,8 @@
             :endOfListReached="endOfListReached"
             :operations="['DELETE', 'DENY']"
             @loadMore="getMoreMessages"
-            @messageChanged="getMessages">
+            @messageChanged="getMessages"
+        >
             <template slot="messages-list-empty">
                 No upcoming messages. 🕖
             </template>
@@ -44,6 +45,3 @@ export default class UpcomingMessagesView extends MessagePageMixin {
     }
 }
 </script>
-
-<style scoped>
-</style>
