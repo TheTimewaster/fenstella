@@ -5,8 +5,21 @@
                 No messages.
             </slot>
         </div>
-        <transition-group name="list" tag="section">
-            <div class="messages-item" :class="{'messages-item--denied': item.messageStatus === 'DENIED'}" v-for="item in messages" :key="item.id">
+        <transition-group
+            name="list"
+            tag="section"
+            :css="false"
+            @beforeEnter="beforeEnter"
+            @enter="enter"
+            @leave="leave"
+        >
+            <div
+                class="messages-item"
+                :class="{'messages-item--denied': item.messageStatus === 'DENIED'}"
+                v-for="(item, index) in messages"
+                :key="item.id"
+                :data-index="index"
+            >
                 <div class="overline mar-b">{{ item.timestamp | timeDelta(currentTimestamp) }}</div>
                 <h5>{{item.content}}</h5>
                 <div class="messages-item__actions">
@@ -32,6 +45,7 @@ import { Message, MessageStatus } from "@/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { debounce } from "@/utilites";
 import messageService from "@/services/message.service";
+import Velocity, { VelocityCallbackFn, VelocityElements } from "velocity-animate";
 
 @Component
 export default class MessagesList extends Vue {
@@ -88,6 +102,22 @@ export default class MessagesList extends Vue {
         });
     }
 
+    beforeEnter(el: HTMLElement) {
+        el.style.opacity = "0";
+    }
+
+    enter(el: HTMLElement, done: Function) {
+        if (el.dataset.index == null) return;
+        const delay = parseInt(el.dataset.index) * 150;
+        setTimeout(function() {
+            Velocity(el as VelocityElements, { opacity: 1 }, { complete: done as VelocityCallbackFn });
+        }, delay);
+    }
+
+    leave(el: HTMLElement, done: Function) {
+        Velocity(el as VelocityElements, { opacity: 0 }, { complete: done as VelocityCallbackFn });
+    }
+
     mounted() {
         this.scrollDebounceFn = debounce(this.scrollHandler, 200);
         window.addEventListener("scroll", this.scrollDebounceFn);
@@ -100,41 +130,29 @@ export default class MessagesList extends Vue {
 </script>
 
 <style scoped lang="less">
-.messages{
+.messages {
     &-item {
         padding: 1rem;
-        border-radius: .5rem;
+        border-radius: 0.5rem;
         background: #f5f5f5;
-        margin-bottom: .5rem;
+        margin-bottom: 0.5rem;
 
         &--denied {
-            opacity: .4;
-            transition: opacity .2s ease;
+            opacity: 0.4;
+            transition: opacity 0.2s ease;
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                 opacity: 1;
             }
         }
 
         &__actions {
-            margin: 0 -.5rem;
+            margin: 0 -0.5rem;
             button {
-                margin: 0 .5rem;
+                margin: 0 0.5rem;
             }
         }
     }
-}
-
-.list-enter-active, .list-leave-active {
-  transition: all .5s;
-}
-.list-enter  {
-    opacity: 0;
-    transform: translateX(-30px);
-}
-
-.list-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
 }
 </style>

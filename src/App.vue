@@ -1,16 +1,18 @@
 <template>
     <div id="app">
-        <div id="nav" class="d-flex">
+        <div class="d-flex nav">
             <div class="flex-1">
-                <router-link to="/">Wall</router-link>
+                <router-link to="/wall">Wall</router-link>
                 <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
-                <router-link v-else to="/admin/new">Admin</router-link>
+                <router-link v-else to="/admin">Admin</router-link>
             </div>
             <div class="flex-1 d-flex flex-justify-end">
                 <button v-if="isAuthenticated" class="btn" @click="logout">Logout</button>
             </div>
         </div>
-        <router-view class="view" />
+        <transition name="fade" mode="out-in">
+            <router-view class="view" />
+        </transition>
         <app-modal></app-modal>
     </div>
 </template>

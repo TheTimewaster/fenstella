@@ -15,4 +15,4 @@ export default new Vuex.Store<RootState>({
 export interface RootState {
     auth: AuthState;
     modal: ModalState;
-  }
+}
