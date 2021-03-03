@@ -26,12 +26,9 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-
-    @media only screen and (min-width: 1024px) {
-        max-width: 1024px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .nav {
@@ -70,10 +67,10 @@ body {
     .wall {
         color: white;
 
-        &-bottom {
-            .btn {
-                opacity: 0;
-            }
+        &-control {
+            top: 1rem;
+            bottom: auto;
+            position: fixed;
         }
     }
 }

@@ -18,7 +18,7 @@
             </template>
         </div>
 
-        <div class="wall-bottom d-flex">
+        <div class="wall-control d-flex">
             <button class="btn btn--primary" @click="enableFullscren">
                 Fullscreen
             </button>
@@ -28,12 +28,8 @@
         </div>
 
         <div class="wall-info text-align-right d-flex flex-align-center">
-            <img class="wall-info__img" src="@/assets/mobile-icon-white.png" alt="">
-            <div class="mar-l">
-                <span class="overline">SEND SMS TO</span>
-                <h5 class="mar--none">+49 171 6984922</h5>
-                <small>Info: fenestella.de</small>
-            </div>
+            <div class="wall-info__left wall-info__img" />
+            <div class="wall-info__right wall-info__img" />
         </div>
     </div>
 </template>
@@ -118,25 +114,44 @@ export default class WallView extends Vue {
         flex: 1;
     }
 
-    &-bottom {
+    &-control {
         padding: 0.5rem;
+        opacity: 0;
+        transition: opacity .5s ease;
+        z-index: 1;
+
+        &:hover {
+            opacity: 1;
+        }
     }
 
     &-info {
         position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        align-items: center;
-
-        h5 {
-            margin: 0;
-        }
+        bottom: 0;
+        left: 0;
+        height: 10rem;
+        width: 100%;
+        justify-content: space-between;
 
         &__img {
-            max-width: 2rem;
-            max-height: 3rem;
+            min-width: 400px;
             width: auto;
             height: auto;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }
+
+        &__left {
+            background-image: url("../assets/wall-text-left.jpg");
+            background-size: 140%;
+            margin-left: 2rem;
+            margin-bottom: .5rem;
+        }
+
+        &__right {
+            background-image: url("../assets/wall-text-right.jpg");
         }
     }
 }

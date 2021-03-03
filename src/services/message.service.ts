@@ -30,7 +30,7 @@ class MessageService {
 
     async getLastPublishedMessage() {
         const messages = await DataStore.query(Message,
-            ({ messageStatus }) => messageStatus("eq", MessageStatus.PUBLISHED), { sort: (message) => message.publishTimestamp(SortDirection.DESCENDING), limit: 1 });
+            ({ messageStatus }) => messageStatus("eq", MessageStatus.PUBLISHED), { sort: (message) => message.publishTimestamp(SortDirection.DESCENDING) });
 
         if (messages.length > 0) {
             return messages[0];
