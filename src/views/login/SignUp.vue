@@ -1,9 +1,13 @@
 <template>
     <form v-if="user" @submit="setNewPassword">
-        <h1>{{ username }}</h1>
-        <label for="field-password" v-text="'password'"></label>
-        <input type="password" name="field-password" v-model="password" />
-        <button role="submit">Set new password</button>
+        <h4>{{ username }}</h4>
+        <div class="mar-b">
+            <label for="field-password" v-text="'password'" />
+        </div>
+        <div class="mar-b">
+            <input type="password" name="field-password" v-model="password" />
+        </div>
+        <button class="btn btn--primary" role="submit">Set new password</button>
 
         <span v-if="error.length" v-text="error" />
     </form>
