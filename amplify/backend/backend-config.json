@@ -20,8 +20,14 @@
             {
               "authenticationType": "API_KEY",
               "apiKeyConfig": {
-                "apiKeyExpirationDays": 90,
+                "apiKeyExpirationDays": 365,
                 "description": "Public API"
+              }
+            },
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authfenstella69b000aa"
               }
             }
           ]
@@ -84,13 +90,6 @@
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "FenstellaLayer",
-          "attributes": [
-            "Arn"
           ]
         }
       ]

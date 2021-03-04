@@ -18,7 +18,7 @@
       "function": {
         "pushMessage": {
           "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
-          "s3Key": "amplify-builds/pushMessage-356d78656f59536d3147-build.zip"
+          "s3Key": "amplify-builds/pushMessage-4c763975586134444832-build.zip"
         },
         "FenstellaLayer": {
           "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
@@ -26,7 +26,7 @@
         },
         "displayMessage": {
           "deploymentBucketName": "amplify-fenstella-dev-104512-deployment",
-          "s3Key": "amplify-builds/displayMessage-2f545071326750346d54-build.zip"
+          "s3Key": "amplify-builds/displayMessage-4e4c4b4c35654b45415a-build.zip"
         }
       }
     },
@@ -103,6 +103,34 @@
                 }
               ],
               "hash": "vCJV2T640Yeti2Fv453ZlJwrWPPn7YorCvVW5vLFMmQ="
+            },
+            "6": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "m63iFAKXj0NsdtnLCZUbePsRdJdolJa7MBBuhn2aXfg="
+            },
+            "7": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "K5pj94G1Xx6HDzLm5F1/Rcdjohn57GDvhZ7UIMhKMD0="
             }
           }
         }

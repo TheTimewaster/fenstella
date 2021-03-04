@@ -220,7 +220,16 @@
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayer"
+          "Fn::Sub": [
+            "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${layerName}-${env}:${layerVersion}",
+            {
+              "layerName": "FenstellaLayer",
+              "env": {
+                "Ref": "env"
+              },
+              "layerVersion": "5"
+            }
+          ]
         },
         "Principal": {
           "Ref": "AWS::AccountId"
@@ -228,6 +237,77 @@
       }
     },
     "LambdaLayerPermissionawsAccounts2921264970475": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": {
+          "Fn::Sub": [
+            "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${layerName}-${env}:${layerVersion}",
+            {
+              "layerName": "FenstellaLayer",
+              "env": {
+                "Ref": "env"
+              },
+              "layerVersion": "5"
+            }
+          ]
+        },
+        "Principal": "292126497047"
+      }
+    },
+    "LambdaLayerPermissionprivate6": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": {
+          "Fn::Sub": [
+            "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${layerName}-${env}:${layerVersion}",
+            {
+              "layerName": "FenstellaLayer",
+              "env": {
+                "Ref": "env"
+              },
+              "layerVersion": "6"
+            }
+          ]
+        },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerPermissionawsAccounts2921264970476": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": {
+          "Fn::Sub": [
+            "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${layerName}-${env}:${layerVersion}",
+            {
+              "layerName": "FenstellaLayer",
+              "env": {
+                "Ref": "env"
+              },
+              "layerVersion": "6"
+            }
+          ]
+        },
+        "Principal": "292126497047"
+      }
+    },
+    "LambdaLayerPermissionprivate7": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": {
+          "Ref": "LambdaLayer"
+        },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerPermissionawsAccounts2921264970477": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
