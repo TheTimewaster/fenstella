@@ -1,15 +1,19 @@
 <template>
     <form @submit="login">
-        <h1>Login</h1>
+        <h4>Admin</h4>
         <div>
-            <label for="field-username" v-text="'email'" />
+            <div class="mar-b">
+                <label for="field-username" v-text="'email'" />
+            </div>
             <input type="email" name="field-username" v-model="username" />
         </div>
         <div>
-            <label for="field-password" v-text="'password'"></label>
+            <div class="mar-b">
+                <label for="field-password" v-text="'password'"></label>
+            </div>
             <input type="password" name="field-password" v-model="password" />
         </div>
-        <button role="submit">Login</button>
+        <button class="btn btn--primary mar-t" role="submit">Login</button>
         <span v-if="error">{{error}}</span>
     </form>
 </template>
