@@ -1,5 +1,11 @@
 {
   "AppSyncApiName": "fenstella",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authfenstella69b000aa",
+      "Outputs.UserPoolId"
+    ]
+  }
 }
