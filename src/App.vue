@@ -1,20 +1,31 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <router-link to="/">Wall</router-link>
-            <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
-            <router-link v-else to="/admin">Admin</router-link>
-            <router-link to="/about">About</router-link>
-            <a v-if="isAuthenticated" @click="logout">Logout</a>
+        <div class="d-flex nav">
+            <div class="flex-1">
+                <router-link to="/wall">Wall</router-link>
+                <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
+                <router-link v-else to="/admin">Admin</router-link>
+            </div>
+            <div class="flex-1 d-flex flex-justify-end">
+                <button v-if="isAuthenticated" class="btn" @click="logout">Logout</button>
+            </div>
         </div>
-        <router-view />
+        <transition name="fade" mode="out-in">
+            <router-view class="view" />
+        </transition>
+        <app-modal></app-modal>
     </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import AppModal from "@/components/app-modal.vue";
 
-@Component
+@Component({
+    components: {
+        AppModal
+    }
+})
 export default class App extends Vue {
     get isAuthenticated() {
         return this.$store.state.auth.user;
@@ -27,26 +38,4 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 0 10px;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="less" src="./styles/styles.less"></style>

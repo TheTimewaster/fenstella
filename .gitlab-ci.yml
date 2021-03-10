@@ -1,0 +1,27 @@
+stages: 
+    - build
+    - test
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+    stage: build
+    script:
+        - npm install --progress=false
+        - npm run build
+    only:
+        - dev
+    artifacts:
+        expire_in: 1 week
+        paths:
+            - dist/
+
+test: 
+    stage: test
+    script:
+        - echo "Testing"
+        - test -f "build/info.txt"
+    only:
+        - dev

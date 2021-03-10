@@ -1,4 +1,4 @@
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/types";
 import { Auth } from "@aws-amplify/auth";
 
 class AuthService {
@@ -20,24 +20,6 @@ class AuthService {
         } catch (error) {
             console.error("error_signin", error);
             throw new Error("error_signin");
-        }
-    }
-
-    async confirmSignUp(username: string, code: string) {
-        try {
-            return Auth.confirmSignUp(username, code);
-        } catch (error) {
-            console.error("error_confirm_signup", error);
-            throw new Error("error_confirm_signup");
-        }
-    }
-
-    async sendSignUp(username: string) {
-        try {
-            return Auth.resendSignUp(username);
-        } catch (error) {
-            console.error("error_send_signup", error);
-            throw new Error("error_send_signup");
         }
     }
 

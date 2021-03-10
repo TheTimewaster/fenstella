@@ -1,15 +1,19 @@
 <template>
     <form v-if="user" @submit="setNewPassword">
-        <h1>{{ username }}</h1>
-        <label for="field-password" v-text="'password'"></label>
-        <input type="password" name="field-password" v-model="password" />
-        <button role="submit">Set new password</button>
+        <h4>{{ username }}</h4>
+        <div class="mar-b">
+            <label for="field-password" v-text="'password'" />
+        </div>
+        <div class="mar-b">
+            <input type="password" name="field-password" v-model="password" />
+        </div>
+        <button class="btn btn--primary" role="submit">Set new password</button>
 
         <span v-if="error.length" v-text="error" />
     </form>
 </template>
 <script lang="ts">
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/types";
 import Vue from "vue";
 import Component from "vue-class-component";
 
@@ -36,10 +40,10 @@ export default class SignUpView extends Vue {
             if (this.user == null) return;
             this.user.completeNewPasswordChallenge(this.password, {}, {
                 onSuccess: () => {
-                    this.$router.push("admin");
+                    this.$router.push("/admin");
                 },
-                onFailure: (error) => {
-                    this.error = error;
+                onFailure: (error: Error) => {
+                    this.error = error.message;
                 }
             });
         } catch (error) {

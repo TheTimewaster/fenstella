@@ -1,4 +1,4 @@
-import { AuthUser } from "@/interfaces/user";
+import { AuthUser } from "@/types";
 import authService from "@/services/auth.service";
 import { Module } from "vuex";
 import { RootState } from ".";
@@ -11,23 +11,28 @@ export const auth: Module<AuthState, RootState> = {
     },
     actions: {
         async init({ commit }) {
-            const cognitoUser = await authService.getCurrentUser();
-            if (cognitoUser == null) {
-                commit("LOGOUT");
-            } else {
-                const currentSession = await authService.getCurrentSession();
-                return new Promise((resolve) => {
-                    cognitoUser.refreshSession(currentSession.getRefreshToken(), (err, session) => {
-                        console.debug(err, session);
-                        if (err == null) {
-                            this.state.auth.user = cognitoUser;
-                            commit("LOGIN_SUCCESS", cognitoUser);
-                        } else {
-                            commit("LOGOUT");
-                        }
-                        resolve(session);
+            try {
+                const cognitoUser = await authService.getCurrentUser();
+                if (cognitoUser == null) {
+                    commit("LOGOUT");
+                    return Promise.resolve(undefined);
+                } else {
+                    const currentSession = await authService.getCurrentSession();
+                    return new Promise((resolve) => {
+                        cognitoUser.refreshSession(currentSession.getRefreshToken(), (err, session) => {
+                            if (err == null) {
+                                this.state.auth.user = cognitoUser;
+                                commit("LOGIN_SUCCESS", cognitoUser);
+                            } else {
+                                commit("LOGOUT");
+                            }
+                            resolve(session);
+                        });
                     });
-                });
+                }
+            } catch (error) {
+                commit("LOGOUT");
+                return Promise.resolve(undefined);
             }
         },
         async login({ commit }, { username, password }: { username: string; password: string }) {
@@ -65,6 +70,12 @@ export const auth: Module<AuthState, RootState> = {
         },
         LOGOUT(state: AuthState) {
             state.user = null;
+        }
+    },
+    getters: {
+        username(state) {
+            if (state.user != null) { return state.user.attributes.email; }
+            return null;
         }
     }
 };

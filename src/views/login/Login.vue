@@ -1,7 +1,7 @@
 <template>
-    <section>
+    <main class="login-view">
         <router-view></router-view>
-    </section>
+    </main>
 </template>
 <script lang="ts">
 import Vue from "vue";

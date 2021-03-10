@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@aws-amplify/ui-vue": "^0.3.1",
+    "@types/zen-observable": "^0.8.2",
     "aws-amplify": "^3.3.17",
+    "velocity-animate": "^2.0.6",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
@@ -35,6 +37,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
+    "release-it": "^14.4.1",
     "typescript": "~3.9.3",
     "vue-template-compiler": "^2.6.11"
   }
