@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.856.0",
+    "axios": "^0.21.1",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.11.0",
+    "https": "^1.0.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,46 @@
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    transition: background-color 0.2s ease-in, border-color 0.2s ease-in,
+        color 0.2s ease-in;
+    font-weight: bold;
+    font-size: 1rem;
+
+    &:focus,
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:disabled {
+        background-color: lighten(@color-primary, 10%);
+        cursor: default;
+    }
+
+    &--primary {
+        background-color: @color-primary;
+        color: white;
+
+        &:focus,
+        &:hover {
+            background-color: @color-primary-dark;
+        }
+    }
+
+    &--secondary {
+        background-color: transparent;
+        border: 1px solid @color-primary;
+        color: @color-primary;
+
+        &:focus,
+        &:hover {
+            border-color: @color-primary-dark;
+            color: @color-primary-dark;
+        }
+
+        &--fill {
+            background-color: white;
+        }
+    }
+}
