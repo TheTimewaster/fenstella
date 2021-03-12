@@ -18,6 +18,7 @@
     </form>
 </template>
 <script lang="ts">
+import { addAdminRoutes } from "@/router";
 import Vue from "vue";
 import Component from "vue-class-component";
 
@@ -38,6 +39,7 @@ export default class SignInView extends Vue {
             if (response.challengeName === "NEW_PASSWORD_REQUIRED") {
                 this.$router.push("login/signup");
             } else {
+                addAdminRoutes(this.$router);
                 this.$router.push("admin");
             }
         } catch (error) {
