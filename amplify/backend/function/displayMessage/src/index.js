@@ -9,7 +9,7 @@ const { print } = graphql;
 const DELTA_MILLISECONDS = 1000 * 60;
 const listPublishedMessagesQuery = gql`
     query getPublishedMessage {
-        listMessages(filter: {messageStatus: {eq: PUBLISHED}}) {
+        listMessages(filter: {messageStatus: {eq: PUBLISHED}}, limit: 1000) {
             items {
                 id
                 content
@@ -27,7 +27,7 @@ const listPublishedMessagesQuery = gql`
 
 const listStagedMessagesQuery = gql`
     query getStagedMessages {
-        listMessages(filter: {messageStatus: {eq: STAGED}}) {
+        listMessages(filter: {messageStatus: {eq: STAGED}}, limit: 1000) {
             items {
                 id
                 content
