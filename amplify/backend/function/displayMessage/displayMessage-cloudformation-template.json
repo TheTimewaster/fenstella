@@ -52,12 +52,8 @@
       },
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
+          "S3Bucket": "amplify-fenstella-dev-104512-deployment",
+          "S3Key": "amplify-builds/displayMessage-42774a61503941676b59-build.zip"
         },
         "Handler": "index.handler",
         "FunctionName": {
