@@ -131,6 +131,20 @@
                 }
               ],
               "hash": "K5pj94G1Xx6HDzLm5F1/Rcdjohn57GDvhZ7UIMhKMD0="
+            },
+            "8": {
+              "permissions": [
+                {
+                  "type": "awsAccounts",
+                  "accounts": [
+                    "292126497047"
+                  ]
+                },
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "AGg5IHqnbpBmHyy9t2/MXrB/SbhVlzjMhn7JXfk3p1U="
             }
           }
         }
