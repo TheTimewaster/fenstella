@@ -56,20 +56,29 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byPublishTimestamp",
+                        "fields": [
+                            "timestamp",
+                            "publishTimestamp"
+                        ],
+                        "queryField": "messagesByPublishtimestamp"
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read",
-                                    "create",
-                                    "update"
+                                    "read"
                                 ],
                                 "provider": "apiKey"
                             },
                             {
-                                "allow": "private",
+                                "allow": "public",
                                 "operations": [
                                     "read",
                                     "create",
@@ -98,5 +107,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "5d4024dacb51bce21e7d819a148bfa10"
+    "version": "3834e566383bd5eee9293e8c71c1c695"
 };
