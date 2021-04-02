@@ -44,7 +44,7 @@
 import { Message, MessageStatus } from "@/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { debounce } from "@/utilites";
-import messageService from "@/services/message.service";
+import messageService, { MESSAGES_PER_PAGE } from "@/services/message.service";
 import Velocity, { VelocityCallbackFn, VelocityElements } from "velocity-animate";
 
 @Component
@@ -59,7 +59,7 @@ export default class MessagesList extends Vue {
 
     scrollHandler() {
         const messagesList = this.$refs.messagesList as HTMLDivElement;
-        if (messagesList.getBoundingClientRect().bottom < window.innerHeight) {
+        if (messagesList.getBoundingClientRect().bottom < (window.innerHeight + 100)) {
             this.$emit("loadMore");
         }
     }
@@ -108,7 +108,7 @@ export default class MessagesList extends Vue {
 
     enter(el: HTMLElement, done: Function) {
         if (el.dataset.index == null) return;
-        const delay = parseInt(el.dataset.index) * 150;
+        const delay = (parseInt(el.dataset.index) % MESSAGES_PER_PAGE) * 150;
         setTimeout(function() {
             Velocity(el as VelocityElements, { opacity: 1 }, { complete: done as VelocityCallbackFn });
         }, delay);

@@ -7,10 +7,17 @@
         color 0.2s ease-in;
     font-weight: bold;
     font-size: 1rem;
+    background-color: @color-secondary;
+    -webkit-appearance: none;
 
     &:focus,
     &:hover {
         cursor: pointer;
+        &:focus,
+        &:hover {
+            background-color: @color-primary-dark;
+            color: white;
+        }
     }
 
     &:disabled {
@@ -36,7 +43,7 @@
         &:focus,
         &:hover {
             border-color: @color-primary-dark;
-            color: @color-primary-dark;
+            color: white;
         }
 
         &--fill {

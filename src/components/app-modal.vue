@@ -18,7 +18,7 @@
                     <div class="app-modal__footer">
                         <slot name="modal-actions"></slot>
                         <button
-                            class="btn btn--secondary--full full-width"
+                            class="btn btn--secondary-fill full-width"
                             @click="commitClose"
                         >
                             Cancel

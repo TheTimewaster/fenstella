@@ -53,7 +53,7 @@ class MessageService {
         return DataStore.query(Message,
             ({ messageStatus }) => messageStatus("eq", MessageStatus.STAGED),
             {
-                sort: (message) => message.timestamp(SortDirection.DESCENDING),
+                sort: (message) => message.publishTimestamp(SortDirection.DESCENDING),
                 page: pageNum,
                 limit: MESSAGES_PER_PAGE
             });
@@ -67,7 +67,7 @@ class MessageService {
                     .messageStatus("eq", MessageStatus.DENIED)
             ),
             {
-                sort: (message) => message.timestamp(SortDirection.DESCENDING),
+                sort: (message) => message.publishTimestamp(SortDirection.DESCENDING),
                 page: pageNum,
                 limit: MESSAGES_PER_PAGE
             });
