@@ -1,46 +1,12 @@
-import Vue from "vue";
+import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./App.vue";
-import router, { addAdminRoutes } from "./router";
-import store from "./store";
-import Amplify from "aws-amplify";
-import awsExports from "@/aws-exports";
-import { timeDelta } from "./filters";
+import router from "./router";
+import './index.css';
+import AppwriteVuePlugin from "./plugins/appwrite";
 
-Amplify.configure(awsExports);
-Vue.config.productionTip = false;
+const app = createApp(App);
 
-Vue.filter("timeDelta", timeDelta);
+app.use(createPinia()).use(router).use(AppwriteVuePlugin);
 
-// define default setup function
-const initVue = () => {
-    new Vue({
-        router,
-        store,
-        render: (h) => h(App)
-    }).$mount("#app");
-};
-
-// validate session
-store.dispatch("auth/init")
-    .then((sess) => {
-        if (sess != null) {
-            addAdminRoutes(router);
-            initVue();
-        } else {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            awsExports.aws_appsync_authenticationType = "API_KEY";
-            Amplify.configure(awsExports);
-            initVue();
-        }
-    })
-    .catch(() => {
-        initVue();
-    });
-
-router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && store.state.auth.user == null) {
-        next({ name: "Login" });
-    } else {
-        next();
-    }
-});
+app.mount("#app");
