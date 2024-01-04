@@ -5,12 +5,24 @@ import { computed, ref } from "vue";
 
 const authStore = defineStore("auth", () => {
   const account = new Account(AppwriteClient);
-  const session = ref<Models.Session>();
+  const session = ref<Models.Session>(
+    localStorage.getItem("session") == null
+      ? undefined
+      : JSON.parse(localStorage.getItem("session") as string),
+  );
   const user = ref<Models.Preferences>();
 
   const checkSession = async () => {
-    const response = await account.get();
-    user.value = response;
+    if (localStorage.getItem("session") == null) {
+      throw new Error("No session found");
+    }
+
+    const localStorageSession = JSON.parse(
+      localStorage.getItem("session") as string,
+    );
+
+    const response = await account.getSession(localStorageSession.$id);
+    session.value = response;
     localStorage.setItem("user", JSON.stringify(response));
   };
 
@@ -23,8 +35,9 @@ const authStore = defineStore("auth", () => {
 
   const logout = async () => {
     if (!session.value) return;
+
     await account.deleteSession(session.value?.$id);
-    session.value = undefined;
+    session.value = null;
 
     localStorage.removeItem("session");
     localStorage.removeItem("user");
@@ -45,6 +58,7 @@ const authStore = defineStore("auth", () => {
     hasSession,
     hasUser,
     session,
+    user,
   };
 });
 

@@ -1,6 +1,6 @@
 <template>
   <main class="mx-auto flex h-screen max-w-md items-center">
-    <div class="w-full">
+    <form class="w-full" @submit.prevent="login">
       <h1 class="text-4xl font-bold">Fenstella | Login</h1>
       <f-input class="mt-4" label="E-Mail" name="email" v-model="email" />
       <f-input
@@ -17,10 +17,17 @@
         @click="login"
       />
 
+      <p
+        v-if="loginError != null && loginError.length > 0"
+        class="mt-4 text-center text-red-500"
+      >
+        {{ loginError }}
+      </p>
+
       <p class="mt-4 text-center">Or login with</p>
 
       <f-button class="mt-4 block w-full" label="Github" />
-    </div>
+    </form>
   </main>
 </template>
 
@@ -36,14 +43,15 @@ const password = ref("");
 
 const authStore = useAuthStore();
 const isLoading = ref(false);
+const loginError = ref("");
 const login = async () => {
   isLoading.value = true;
   try {
     await authStore.login(email.value, password.value);
-
-    router.push({ name: "Manager" });
+    loginError.value = "";
+    router.push({ name: "NewMessages" });
   } catch (error) {
-    console.error(error);
+    loginError.value = (error as Error).message;
   } finally {
     isLoading.value = false;
   }

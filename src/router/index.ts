@@ -82,25 +82,16 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useauthStore();
 
-  if (to.name === "Login") {
-    try {
-      await authStore.checkSession();
+  if (to.name === "Login" && authStore.hasSession) {
+    if (authStore.hasSession) {
       next({ name: "NewMessages" });
-    } catch (error) {
-      console.log(error);
-      next("/wall");
+    } else {
+      next();
     }
-
-    return;
   }
 
-  if (to.meta.requiresAuth) {
-    try {
-      await authStore.checkSession();
-    } catch (error) {
-      next({ name: "Login" });
-      return;
-    }
+  if (to.meta.requiresAuth && !authStore.hasSession) {
+    next({ name: "Login" });
   }
 
   next();
