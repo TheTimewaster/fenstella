@@ -27,7 +27,7 @@ const authStore = defineStore("auth", () => {
   };
 
   const login = async (email: string, password: string) => {
-    const response = await account.createEmailSession(email, password);
+    const response = await account.createEmailPasswordSession(email, password);
     session.value = response;
 
     localStorage.setItem("session", JSON.stringify(response));

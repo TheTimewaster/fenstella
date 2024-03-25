@@ -1,28 +1,18 @@
 <template>
-    <p v-if="isLoading" class="my-8 text-center">
+  <p v-if="isLoading" class="my-8 text-center">
     {{ loadingListLabel }}
-    </p>
-    <p
-      v-else-if="messagesStore.newMessages.length === 0"
-      class="my-8 text-center"
-    >
-      {{ emptyListLabel }}
-      <div class="mt-4 flex justify-center gap-4">
+  </p>
+  <div v-else-if="messagesStore.newMessages.length === 0" class="my-8 text-center">
+    <p>{{ emptyListLabel }}</p>
 
-        <slot name="empty-action"></slot>
+    <div class="mt-4 flex justify-center gap-4">
 
-        <f-button
-          label="Refresh"
-          inverted
-          @click="messagesStore.getMessages"
-        />
-      </div>
-    </p>
-    <message-item
-      v-for="message in messagesStore.newMessages"
-      :key="message.$id"
-      :message="message"
-    />
+      <slot name="empty-action" />
+
+      <f-button label="Refresh" inverted @click="messagesStore.getMessages" />
+    </div>
+  </div>
+  <message-item v-for="message in messagesStore.newMessages" :key="message.$id" :message="message" />
 </template>
 
 <script setup lang="ts">
@@ -43,6 +33,4 @@ withDefaults(defineProps<{
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
