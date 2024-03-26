@@ -1,6 +1,7 @@
 import { MessageStatus, type Message } from "@/models";
 import { AppwriteClient } from "@/plugins/appwrite";
-import { Databases } from "appwrite";
+import { Databases, Query } from "appwrite";
+import { nanoid } from "nanoid";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
@@ -11,8 +12,7 @@ const useMessagesStore = defineStore("messages", () => {
   const getMessages = async () => {
     const response = await databases.listDocuments<Message>(
       "65856357a3d8946aaf91",
-      "6585636940ab0c6ba8e9",
-      // [Query.select(["stagingTimestamp"])],
+      "660320f12038b430abcc",
     );
 
     messages.value = response.documents;
@@ -36,12 +36,25 @@ const useMessagesStore = defineStore("messages", () => {
     );
   });
 
+  const addMessage = async (content: string) => {
+    await databases.createDocument<Message>(
+      "65856357a3d8946aaf91",
+      "660320f12038b430abcc",
+      nanoid(),
+      {
+        content,
+        status: MessageStatus.NEW,
+      },
+    );
+  }
+
   return {
     messages,
     displayMessage,
     newMessages,
     upComingMessages,
     getMessages,
+    addMessage,
   };
 });
 

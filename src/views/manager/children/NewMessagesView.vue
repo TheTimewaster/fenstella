@@ -14,7 +14,7 @@
       v-model="openModal"
       title="Add a new message"
     >
-      <form class="relative" @submit.prevent="sendMessage">
+      <form class="relative" @submit.prevent="submitMessage">
         <f-input
           label="Message"
           v-model="input"
@@ -27,7 +27,7 @@
           <f-button
             v-if="input.length > 0"
             class="absolute bottom-0 right-0"
-            icon="material-symbols:done"
+            :icon="isLoading ? 'material-symbols:sync': 'material-symbols:done' "
             rounded
             type="submit"
           />
@@ -54,8 +54,18 @@ const addMessage = () => {
   openModal.value = true;
 };
 
-const sendMessage = () => {
-  // TODO: implement
+const isSubmitting = ref(false);
+const submitMessage = async () => {
+  isSubmitting.value = true;
+  try {
+    messagesStore.addMessage(input.value);
+    input.value = '';
+    openModal.value = false;
+  } catch (error) {
+    // TODO: Handle error
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 
 const isLoading = ref(false);

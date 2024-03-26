@@ -1,7 +1,3 @@
-// @ts-check
-import { initSchema } from '@aws-amplify/datastore';
-import { schema } from './schema';
-
 const MessageStatus = {
   "NEW": "NEW",
   "STAGED": "STAGED",
@@ -11,9 +7,6 @@ const MessageStatus = {
   "DISPLAY": "DISPLAY"
 };
 
-const { Message } = initSchema(schema);
-
 export {
-  Message,
   MessageStatus
 };
