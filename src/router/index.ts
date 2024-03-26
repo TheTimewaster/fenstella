@@ -38,10 +38,11 @@ const router = createRouter({
           component: () =>
             import("@/views/manager/children/NewMessagesView.vue"),
         },
-        // {
-        //   path: "upcoming",
-        //   component: () => import("@/views/manager/subroutes/UpcomingMessages.vue"),
-        // },
+        {
+          path: "upcoming",
+          name: "UpcomingMessages",
+          component: () => import("@/views/manager/children/UpcomingMessagesView.vue"),
+        },
         // {
         //   path: "archived",
         //   component: () => import("@/views/manager/subroutes/ArchivedMessages.vue"),

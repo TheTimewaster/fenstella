@@ -12,7 +12,9 @@
       <f-button label="Refresh" inverted @click="messagesStore.getMessages" />
     </div>
   </div>
-  <message-item v-for="message in messagesStore.newMessages" :key="message.$id" :message="message" />
+  <transition-group>
+    <message-item v-for="message in messagesStore.newMessages" :key="message.$id" class="mt-8" :message="message" />
+  </transition-group>
 </template>
 
 <script setup lang="ts">

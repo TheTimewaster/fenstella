@@ -59,5 +59,5 @@ onMounted(async () => {
     </template>
   </div>
 
-  <router-view class="px-4 py-16 md:px-8" />
+  <router-view class="px-4 py-16 md:px-8 max-w-screen-xl mx-auto" />
 </template>

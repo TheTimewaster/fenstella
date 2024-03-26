@@ -14,6 +14,10 @@ const links: Array<ManagerTabItem> = [
     name: "NewMessages",
     label: "New",
   },
+  {
+    name: "UpcomingMessages",
+    label: "Upcoming",
+  }
 ];
 </script>
 
